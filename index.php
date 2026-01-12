@@ -11,6 +11,34 @@ require_once "template/header.php";
 require_once "template/navbar.php";
 require_once "template/sidebar.php";
 
+$libur2026 = [
+    ["2026-01-01", "Kamis", "Tahun Baru 2026 Masehi", "Libur Nasional"],
+    ["2026-01-16", "Jumat", "Isra Mikraj Nabi Muhammad S.A.W.", "Libur Nasional"],
+    ["2026-02-17", "Selasa", "Tahun Baru Imlek 2577 Kongzili", "Libur Nasional"],
+    ["2026-03-19", "Kamis", "Hari Suci Nyepi (Tahun Baru Saka 1948)", "Libur Nasional"],
+    ["2026-03-21", "Sabtu", "Idul Fitri 1447 Hijriah", "Libur Nasional"],
+    ["2026-03-22", "Minggu", "Idul Fitri 1447 Hijriah", "Libur Nasional"],
+    ["2026-04-03", "Jumat", "Wafat Yesus Kristus", "Libur Nasional"],
+    ["2026-04-05", "Minggu", "Kebangkitan Yesus Kristus (Paskah)", "Libur Nasional"],
+    ["2026-05-01", "Jumat", "Hari Buruh Internasional", "Libur Nasional"],
+    ["2026-05-14", "Kamis", "Kenaikan Yesus Kristus", "Libur Nasional"],
+    ["2026-05-27", "Rabu", "Idul Adha 1447 Hijriah", "Libur Nasional"],
+    ["2026-05-31", "Minggu", "Hari Raya Waisak 2570 BE", "Libur Nasional"],
+    ["2026-06-01", "Senin", "Hari Lahir Pancasila", "Libur Nasional"],
+    ["2026-06-16", "Selasa", "1 Muharam Tahun Baru Islam 1448 Hijriah", "Libur Nasional"],
+    ["2026-08-17", "Senin", "Proklamasi Kemerdekaan", "Libur Nasional"],
+    ["2026-08-25", "Selasa", "Maulid Nabi Muhammad S.A.W.", "Libur Nasional"],
+    ["2026-12-25", "Jumat", "Kelahiran Yesus Kristus", "Libur Nasional"],
+
+    ["2026-02-16", "Senin", "Tahun Baru Imlek 2577 Kongzili", "Cuti Bersama"],
+    ["2026-03-18", "Rabu", "Hari Suci Nyepi (Tahun Baru Saka 1948)", "Cuti Bersama"],
+    ["2026-03-20", "Jumat", "Idul Fitri 1447 Hijriah", "Cuti Bersama"],
+    ["2026-03-23", "Senin", "Idul Fitri 1447 Hijriah", "Cuti Bersama"],
+    ["2026-03-24", "Selasa", "Idul Fitri 1447 Hijriah", "Cuti Bersama"],
+    ["2026-05-15", "Jumat", "Kenaikan Yesus Kristus", "Cuti Bersama"],
+    ["2026-05-28", "Kamis", "Idul Adha 1447 Hijriah", "Cuti Bersama"],
+    ["2026-12-24", "Kamis", "Kelahiran Yesus Kristus", "Cuti Bersama"]
+];
 ?>
 
 
@@ -21,45 +49,6 @@ require_once "template/sidebar.php";
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
-            <!--
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-primary text-white mb-4">
-                        <div class="card-body">Primary Card</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="<?= $main_url ?>">View Details</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-warning text-white mb-4">
-                        <div class="card-body">Warning Card</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="<?= $main_url ?>">View Details</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-success text-white mb-4">
-                        <div class="card-body">Success Card</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="<?= $main_url ?>">View Details</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-danger text-white mb-4">
-                        <div class="card-body">Danger Card</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="<?= $main_url ?>">View Details</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             <div class="row">
 
                 <!-- TABEL REKAP BULAN MASUK (KIRI) -->
@@ -222,6 +211,45 @@ require_once "template/sidebar.php";
                     </div>
                 </div>
 
+            </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            Hari Libur Nasional & Cuti Bersama 2026
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-secondary text-center">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <th>Hari</th>
+                                        <th>Keterangan</th>
+                                        <th>Jenis</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no = 1;
+                                    foreach ($libur2026 as $libur) : ?>
+                                        <tr>
+                                            <td class="text-center"><?= $no++; ?></td>
+                                            <td><?= date('d-m-Y', strtotime($libur[0])); ?></td>
+                                            <td><?= $libur[1]; ?></td>
+                                            <td><?= $libur[2]; ?></td>
+                                            <td class="text-center">
+                                                <span class="badge <?= $libur[3] == 'Libur Nasional' ? 'bg-danger' : 'bg-warning'; ?>">
+                                                    <?= $libur[3]; ?>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
