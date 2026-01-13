@@ -127,7 +127,7 @@ if (!$data) {
         UPDATE tbl_sampel SET
             no_spu='{$_POST['no_spu']}',
             pabrik='{$_POST['pabrik']}',
-            no_registrasi='{$_POST['no_registrasi']}',
+            no_reg='{$_POST['no_reg']}',
             no_bet='{$_POST['no_bet']}',
             nama_sampel='{$_POST['nama_sampel']}',
             brand='{$_POST['brand']}',
