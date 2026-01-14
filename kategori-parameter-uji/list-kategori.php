@@ -35,8 +35,23 @@ $query = mysqli_query($koneksi, "SELECT * FROM tbl_kategori_parameter")
                     <span class="h5 mb-0">
                         <i class="fa-solid fa-square-plus"></i> List Parameter Uji
                     </span>
+                    
+                    <form action="import-parameter.php" method="POST" enctype="multipart/form-data">
+                        <label class="mb-1">Import Parameter Uji (CSV)</label>
+                        <div class="input-group">
+                            <input type="file"
+                                name="file_csv"
+                                accept=".csv"
+                                class="form-control"
+                                required>
 
-                    <!-- FORM HANYA UNTUK TOMBOL -->
+                            <button class="btn btn-primary"
+                                type="submit"
+                                name="import">
+                                Import
+                            </button>
+                        </div>
+                    </form>
                     <form action="add-kategori.php" method="GET" class="m-0">
                         <button class="btn btn-primary">
                             Tambah Parameter Uji
