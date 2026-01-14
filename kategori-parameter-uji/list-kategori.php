@@ -82,7 +82,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM tbl_kategori_parameter")
                                         </td>
 
                                         <td class="text-center">
-                                            <a href="edit.php?id_kategori_parameter=<?= $row['id_kategori_parameter']; ?>" class="text-warning me-2">
+                                            <a href="edit-parameter.php?id_kategori_parameter=<?= $row['id_kategori_parameter']; ?>" class="text-warning me-2">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <a href="delete.php?id_kategori_parameter=<?= $row['id_kategori_parameter']; ?>"
