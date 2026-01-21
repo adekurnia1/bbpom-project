@@ -31,32 +31,19 @@ $query = mysqli_query($koneksi, "SELECT * FROM tbl_kategori_parameter")
             <div class="card mb-4">
 
                 <!-- HEADER -->
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header d-flex justify-content-between align-items-right">
                     <span class="h5 mb-0">
                         <i class="fa-solid fa-square-plus"></i> List Parameter Uji
                     </span>
-                    
-                    <form action="import-parameter.php" method="POST" enctype="multipart/form-data">
-                        <label class="mb-1">Import Parameter Uji (CSV)</label>
-                        <div class="input-group">
-                            <input type="file"
-                                name="file_csv"
-                                accept=".csv"
-                                class="form-control"
-                                required>
+                    <div class="d-flex gap-2 mb-0">
+                        <a href="add-kategori.php" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Tambah Manual
+                        </a>
 
-                            <button class="btn btn-primary"
-                                type="submit"
-                                name="import">
-                                Import
-                            </button>
-                        </div>
-                    </form>
-                    <form action="add-kategori.php" method="GET" class="m-0">
-                        <button class="btn btn-primary">
-                            Tambah Parameter Uji
-                        </button>
-                    </form>
+                        <a href="import-parameter-form.php" class="btn btn-primary">
+                            <i class="fas fa-file-import"></i> Import (Batch CSV)
+                        </a>
+                    </div>
                 </div>
 
                 <!-- BODY -->

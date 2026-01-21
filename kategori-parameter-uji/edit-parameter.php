@@ -55,12 +55,12 @@ if (!$data) {
 
                                     <div class="col-md-6 mb-3">
                                         <label>lod</label>
-                                        <input type="text" name="lod" class="form-control" value="<?= $data['lod']; ?>" required>
+                                        <input type="text" name="lod" class="form-control" value="<?= $data['lod']; ?>">
                                     </div>
 
                                     <div class="col-md-6 mb-3">
                                         <label>loq</label>
-                                        <input type="text" name="loq" class="form-control" value="<?= $data['loq']; ?>" required>
+                                        <input type="text" name="loq" class="form-control" value="<?= $data['loq']; ?>">
                                     </div>
 
                                     <div class="col-md-6 mb-3">

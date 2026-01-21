@@ -14,9 +14,9 @@ if (isset($_POST['import'])) {
     if (($handle = fopen($file, "r")) !== FALSE) {
 
         // Lewati header
-        fgetcsv($handle, 1000, ",");
+        fgetcsv($handle, 1000, ";");
 
-        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
 
             $kategori        = mysqli_real_escape_string($koneksi, $data[0]);
             $parameter_uji   = mysqli_real_escape_string($koneksi, $data[1]);
