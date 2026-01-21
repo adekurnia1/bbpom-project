@@ -24,9 +24,17 @@ require_once "../config.php";
     <link href="<?= $main_url ?>asset/sb-admin/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="icon" type="image/x-icon" href="<?= $main_url ?>asset/image/logo_bpom.png">
+
+    <style>
+        #bgLogin{
+            background-image: url("../asset/image/bbpom-image.jpg");
+            background-size: cover;
+            background-position: center center;
+        }
+    </style>
 </head>
 
-<body class="bg-primary">
+<body id="bgLogin">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <main>
