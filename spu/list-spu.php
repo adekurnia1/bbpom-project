@@ -98,9 +98,19 @@ $query = mysqli_query($koneksi, "SELECT * FROM tbl_spu ORDER BY no_spu");
             </ol>
             <form action="add-spu.php" method="POST" enctype="multipart/form-data">
                 <div class="card">
-                    <div class="card-header">
-                        <span class="h5"><i class="fa-solid fa-square-plus"></i> List SPU</span>
-                        <button class="btn btn-primary float-end" type="submit" name="simpan"> Tambah SPU </button>
+                    <div class="card-header d-flex justify-content-between align-items-right">
+                    <span class="h5 mb-0">
+                        <i class="fa-solid fa-square-plus"></i> List SPU
+                    </span>
+                        <div class="d-flex gap-2 mb-0">
+                        <a href="add-spu.php" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Tambah Manual
+                        </a>
+
+                        <a href="import-spu-form.php" class="btn btn-primary">
+                            <i class="fas fa-file-import"></i> Import (Batch CSV)
+                        </a>
+                    </div>
                     </div>
                     <div class="card mb-4">
                         <div class="card-body">
