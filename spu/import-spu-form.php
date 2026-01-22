@@ -32,17 +32,19 @@ if (!isset($_SESSION["ssLogin"])) {
 
                         <div class="card-body">
 
-                            <!-- INSTRUKSI -->
+                            <!-- KETENTUAN -->
                             <div class="alert alert-info">
                                 <strong>Ketentuan File:</strong>
                                 <ul class="mb-0">
                                     <li>Format file harus <b>.csv</b></li>
                                     <li>Pemisah kolom menggunakan <b>titik koma (;)</b></li>
+                                    <li>Pastikan Tanggal dalam format <b>(dd/mm/yyyy)</b></li>
                                     <li>Baris pertama harus berisi nama kolom</li>
                                     <li>Urutan kolom:
                                         <br>
                                         <small>
-                                            kategori | parameter_uji | lod | loq | syarat | metode | pustaka | tipe_pu | jenis_pu | pusurveilance | keterangan
+                                            Nomor SPU | Tipe Sampel | Asal Sampling | Bulan Masuk (1-12) | Tanggal masuk Lab |
+                                            Tanggal SPK | Jumlah Sampel | Timeline
                                         </small>
                                     </li>
                                     <li>Data duplikat akan dilewati otomatis</li>
@@ -50,7 +52,7 @@ if (!isset($_SESSION["ssLogin"])) {
                             </div>
 
                             <!-- FORM UPLOAD -->
-                            <form action="import-parameter.php" method="POST" enctype="multipart/form-data">
+                            <form action="import-spu.php" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label class="form-label">Pilih File CSV</label>
                                     <input type="file"
@@ -61,7 +63,7 @@ if (!isset($_SESSION["ssLogin"])) {
                                 </div>
 
                                 <div class="text-end">
-                                    <a href="list-kategori.php" class="btn btn-secondary">
+                                    <a href="list-spu.php" class="btn btn-secondary">
                                         Kembali
                                     </a>
                                     <button type="submit" name="import" class="btn btn-primary">
