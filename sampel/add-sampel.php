@@ -32,10 +32,9 @@ if ($msg == 'added') {
 </div>';
 }
 
-// ambil data SPU untuk dropdown
-$qSpu = mysqli_query($koneksi, "SELECT no_spu FROM tbl_spu ORDER BY no_spu ASC");
-?>
-
+// ambil data SPU dan kategori untuk dropdown
+$qSpu       = mysqli_query($koneksi, "SELECT no_spu FROM tbl_spu ORDER BY no_spu ASC");
+$qKategori  = mysqli_query($koneksi, "SELECT DISTINCT kategori FROM tbl_kategori_parameter ORDER BY kategori ASC");
 ?>
 
 <div id="layoutSidenav_content">
@@ -129,12 +128,16 @@ $qSpu = mysqli_query($koneksi, "SELECT no_spu FROM tbl_spu ORDER BY no_spu ASC")
                                         <input type="date" class="form-control" id="kadaluarsa" name="kadaluarsa">
                                     </div>
                                 </div>
-                                <div class="mb-3 row">
-                                    <label for="no_spl_sipt" class="col-sm-2 col-form-label">Kategori</label>
-                                    <label for="" class="col-sm-1 col-form-label">:</label>
-                                    <div class="col-sm-9" style="margin-left: -50px;">
-                                        <input type="text" class="form-control" id="kategori" name="kategori">
-                                    </div>
+                                <div class="mb-3">
+                                    <label>Kategori</label>
+                                    <select name="kategori" class="form-control" required>
+                                        <option value="">-- Pilih Kategori --</option>
+                                        <?php while ($kategori = mysqli_fetch_assoc($qKategori)) : ?>
+                                            <option value="<?= $kategori['kategori']; ?>">
+                                                <?= $kategori['kategori']; ?>
+                                            </option>
+                                        <?php endwhile; ?>
+                                    </select>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="no_spl_sipt" class="col-sm-2 col-form-label">Wadah</label>
