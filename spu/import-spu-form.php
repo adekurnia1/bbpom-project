@@ -36,7 +36,7 @@ if (!isset($_SESSION["ssLogin"])) {
                             <div class="alert alert-info">
                                 <strong>Ketentuan File:</strong>
                                 <ul class="mb-0">
-                                    <li>Format file harus <b>.csv</b></li>
+                                    <li>Format file harus <b>.csv atau .xlsx</b></li>
                                     <li>Pemisah kolom menggunakan <b>titik koma (;)</b></li>
                                     <li>Pastikan Tanggal dalam format <b>(dd/mm/yyyy)</b></li>
                                     <li>Baris pertama harus berisi nama kolom</li>
@@ -57,7 +57,7 @@ if (!isset($_SESSION["ssLogin"])) {
                                     <label class="form-label">Pilih File CSV</label>
                                     <input type="file"
                                         name="file_csv"
-                                        accept=".csv"
+                                        accept=".csv, .xlsx"
                                         class="form-control"
                                         required>
                                 </div>
