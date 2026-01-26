@@ -69,73 +69,42 @@ $libur2026 = [
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>35</td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>17</td>
-                                        <td>7</td>
-                                        <td>3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>80</td>
-                                        <td></td>
-                                        <td>10</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>88</td>
-                                        <td>19</td>
-                                        <td>16</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>92</td>
-                                        <td>17</td>
-                                        <td>13</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>95</td>
-                                        <td>26</td>
-                                        <td>12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>81</td>
-                                        <td>12</td>
-                                        <td>16</td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>93</td>
-                                        <td><strong>23</strong></td>
-                                        <td><strong>8</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>86</td>
-                                        <td>18</td>
-                                        <td>13</td>
-                                    </tr>
-                                    <tr>
-                                        <td>11</td>
-                                        <td>60</td>
-                                        <td>15</td>
-                                        <td>14</td>
-                                    </tr>
+                                    <?php
+                                    $total_bandung = 0;
+                                    $total_bogor   = 0;
+                                    $total_tasik   = 0;
+
+                                    $q = mysqli_query($koneksi, "
+                                            SELECT 
+                                                bulan_masuk,
+                                                SUM(CASE WHEN asal_sampling = 'Balai Bandung' THEN 1 ELSE 0 END) AS bandung,
+                                                SUM(CASE WHEN asal_sampling = 'Balai Bogor' THEN 1 ELSE 0 END) AS bogor,
+                                                SUM(CASE WHEN asal_sampling = 'Balai Tasik' THEN 1 ELSE 0 END) AS tasik
+                                            FROM tbl_spu
+                                            GROUP BY bulan_masuk
+                                            ORDER BY bulan_masuk
+                                        ");
+
+                                    while ($row = mysqli_fetch_assoc($q)) {
+                                        $total_bandung += $row['bandung'];
+                                        $total_bogor   += $row['bogor'];
+                                        $total_tasik   += $row['tasik'];
+                                    ?>
+                                        <tr>
+                                            <td><?= $row['bulan_masuk']; ?></td>
+                                            <td><?= $row['bandung']; ?></td>
+                                            <td><?= $row['bogor']; ?></td>
+                                            <td><?= $row['tasik']; ?></td>
+                                        </tr>
+                                    <?php } ?>
                                 </tbody>
+
                                 <tfoot class="fw-bold">
                                     <tr>
                                         <td>Grand Total</td>
-                                        <td>727</td>
-                                        <td>137</td>
-                                        <td>105</td>
+                                        <td><?= $total_bandung; ?></td>
+                                        <td><?= $total_bogor; ?></td>
+                                        <td><?= $total_tasik; ?></td>
                                     </tr>
                                 </tfoot>
                             </table>
