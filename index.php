@@ -160,52 +160,18 @@ $libur2026 = [
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Yenny N.F.K</td>
-                                        <td class="text-center">YN</td>
-                                        <td>Yusrani Salman</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tarita Kamardi</td>
-                                        <td class="text-center">TR</td>
-                                        <td>Yenny N.F.K</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dewiyani Triharto</td>
-                                        <td class="text-center">DW</td>
-                                        <td>Yenny N.F.K</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Eneng Karmini</td>
-                                        <td class="text-center">EN</td>
-                                        <td>Yusrani Salman</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Riris Ari Rahmani</td>
-                                        <td class="text-center">RS</td>
-                                        <td>Yusrani Salman</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Yusrani Salman</td>
-                                        <td class="text-center">YS</td>
-                                        <td>Tarita Kamardi</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Firdausi</td>
-                                        <td class="text-center">FI</td>
-                                        <td>Yenny N.F.K</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Salma Zahra</td>
-                                        <td class="text-center">SA</td>
-                                        <td>Tarita Kamardi</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nur Hidayat</td>
-                                        <td class="text-center">DY</td>
-                                        <td>Tarita Kamardi</td>
-                                    </tr>
+                                    <?php
+                                    $q = mysqli_query($koneksi, "SELECT penguji, id_penguji, penyelia FROM tbl_petugas ORDER BY id_petugas ASC");
+                                    while ($row = mysqli_fetch_assoc($q)) {
+                                    ?>
+                                        <tr>
+                                            <td><?= $row['penguji']; ?></td>
+                                            <td class="text-center"><?= $row['id_penguji']; ?></td>
+                                            <td><?= $row['penyelia']; ?></td>
+                                        </tr>
+                                    <?php } ?>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
