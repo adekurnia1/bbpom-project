@@ -108,7 +108,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM tbl_spu ORDER BY no_spu");
                         </a>
 
                         <a href="import-spu-form.php" class="btn btn-primary">
-                            <i class="fas fa-file-import"></i> Import (Batch CSV)
+                            <i class="fas fa-file-import"></i> Import Batch
                         </a>
                     </div>
                     </div>

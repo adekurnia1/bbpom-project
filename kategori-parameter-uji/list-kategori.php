@@ -41,7 +41,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM tbl_kategori_parameter")
                         </a>
 
                         <a href="import-parameter-form.php" class="btn btn-primary">
-                            <i class="fas fa-file-import"></i> Import (Batch CSV)
+                            <i class="fas fa-file-import"></i> Import Batch
                         </a>
                     </div>
                 </div>

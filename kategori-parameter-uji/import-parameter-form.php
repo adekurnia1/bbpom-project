@@ -27,7 +27,7 @@ if (!isset($_SESSION["ssLogin"])) {
 
                     <div class="card shadow">
                         <div class="card-header bg-primary text-white">
-                            Upload File CSV
+                            Upload File
                         </div>
 
                         <div class="card-body">
@@ -36,7 +36,7 @@ if (!isset($_SESSION["ssLogin"])) {
                             <div class="alert alert-info">
                                 <strong>Ketentuan File:</strong>
                                 <ul class="mb-0">
-                                    <li>Format file harus <b>.csv</b></li>
+                                    <li>Format file harus <b>.csv dan .xlsx</b></li>
                                     <li>Pemisah kolom menggunakan <b>titik koma (;)</b></li>
                                     <li>Baris pertama harus berisi nama kolom</li>
                                     <li>Urutan kolom:
@@ -55,7 +55,7 @@ if (!isset($_SESSION["ssLogin"])) {
                                     <label class="form-label">Pilih File CSV</label>
                                     <input type="file"
                                         name="file_csv"
-                                        accept=".csv"
+                                        accept=".csv, .xlsx"
                                         class="form-control"
                                         required>
                                 </div>

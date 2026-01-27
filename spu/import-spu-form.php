@@ -27,7 +27,7 @@ if (!isset($_SESSION["ssLogin"])) {
 
                     <div class="card shadow">
                         <div class="card-header bg-primary text-white">
-                            Upload File CSV
+                            Upload File
                         </div>
 
                         <div class="card-body">
