@@ -14,7 +14,7 @@ if (!isset($_GET['no_spl_sipt'])) {
 
 $no_spl_sipt = mysqli_real_escape_string($koneksi, $_GET['no_spl_sipt']);
 
-// Ambil data sampel
+//Data Sampel
 $sampel = mysqli_query($koneksi, "
     SELECT * FROM tbl_sampel 
     WHERE no_spl_sipt = '$no_spl_sipt'
@@ -26,16 +26,28 @@ if (!$data) {
     exit;
 }
 
-$kategori = $data['kategori'];
+// Mengecek Status Pengiriman
+$cekKirim = mysqli_query($koneksi, "
+    SELECT ps.*, u.nama AS nama_penguji
+    FROM tbl_pengiriman_sampel ps
+    LEFT JOIN tbl_users u ON ps.id_penguji = u.id_user
+    WHERE ps.no_spl_sipt = '$no_spl_sipt'
+    ORDER BY ps.tgl_kirim DESC
+    LIMIT 1
+");
 
-// Parameter uji
+$dataKirim = mysqli_fetch_assoc($cekKirim);
+$sudahDikirim = $dataKirim ? true : false;
+
+// Parameter Uji
+$kategori = $data['kategori'];
 $parameter = mysqli_query($koneksi, "
     SELECT * FROM tbl_kategori_parameter
     WHERE kategori = '$kategori'
     ORDER BY parameter_uji
 ");
 
-// Data penguji
+// Data Penguji
 $penguji = mysqli_query($koneksi, "
     SELECT id_user, nama 
     FROM tbl_users 
@@ -60,35 +72,33 @@ require_once "../template/sidebar.php";
                 <li class="breadcrumb-item active">Detail Sampel</li>
             </ol>
 
-            <!-- ===== NOTIFIKASI ===== -->
-            <?php if (isset($_GET['msg'])) : ?>
-                <?php if ($_GET['msg'] == 'success') : ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="fas fa-check-circle"></i>
-                        Sampel berhasil dikirim ke penguji.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                <?php elseif ($_GET['msg'] == 'error') : ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="fas fa-times-circle"></i>
-                        Sampel gagal dikirim. Silakan coba lagi.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                <?php endif; ?>
+            <!-- Notifikasi Status-->
+            <?php if ($sudahDikirim): ?>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    Sampel ini sudah dikirim ke penguji
+                    <b><?= $dataKirim['nama_penguji']; ?></b>
+                    pada
+                    <b><?= date('d-m-Y H:i', strtotime($dataKirim['tgl_kirim'])); ?></b>
+                </div>
             <?php endif; ?>
-            <!-- ====================== -->
 
-            <!-- INFORMASI SAMPEL -->
+            <!-- Informasi Sampel -->
             <div class="card mb-4">
                 <div class="card-header">
                     <strong>Informasi Sampel</strong>
-                    <?php if (empty($data['status_sampel']) || $data['status_sampel'] == 'draft') : ?>
+
+                    <?php if (!$sudahDikirim): ?>
                         <button type="button"
                             class="btn btn-success float-end"
                             data-bs-toggle="modal"
                             data-bs-target="#modalKirim">
                             <i class="fas fa-paper-plane"></i> Kirim ke Penguji
                         </button>
+                    <?php else: ?>
+                        <span class="badge bg-success float-end">
+                            Sudah dikirim
+                        </span>
                     <?php endif; ?>
                 </div>
 
@@ -126,7 +136,7 @@ require_once "../template/sidebar.php";
                 </div>
             </div>
 
-            <!-- PARAMETER UJI -->
+            <!-- Informasi parameter uji pada sampel -->
             <div class="card mb-4">
                 <div class="card-header"><strong>Parameter Uji</strong></div>
                 <div class="card-body table-responsive">
@@ -163,55 +173,56 @@ require_once "../template/sidebar.php";
 
         </div>
     </main>
-
     <?php require_once "../template/footer.php"; ?>
 </div>
 
-<!-- ================= MODAL KIRIM PENGUJI ================= -->
-<div class="modal fade" id="modalKirim" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <form action="proses-kirim-penguji.php" method="POST">
-            <div class="modal-content">
+<!-- kirim ke penguji -->
+<?php if (!$sudahDikirim): ?>
+    <div class="modal fade" id="modalKirim" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <form action="proses-kirim-penguji.php" method="POST">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Kirim Sampel ke Penguji</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <div class="modal-body">
-
-                    <input type="hidden" name="no_spl_sipt" value="<?= $data['no_spl_sipt']; ?>">
-
-                    <div class="mb-3">
-                        <label class="form-label">Penyelia</label>
-                        <input type="text" class="form-control"
-                            value="<?= $_SESSION['ssUser']; ?>" readonly>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kirim Sampel ke Penguji</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Kirim ke Penguji</label>
-                        <select name="id_penguji" class="form-select" required>
-                            <option value="">-- Pilih Penguji --</option>
-                            <?php while ($pg = mysqli_fetch_assoc($penguji)) : ?>
-                                <option value="<?= $pg['id_user']; ?>">
-                                    <?= $pg['nama']; ?>
-                                </option>
-                            <?php endwhile; ?>
-                        </select>
+                    <div class="modal-body">
+
+                        <input type="hidden" name="no_spl_sipt" value="<?= $data['no_spl_sipt']; ?>">
+
+                        <div class="mb-3">
+                            <label class="form-label">Penyelia</label>
+                            <input type="text" class="form-control"
+                                value="<?= $_SESSION['ssUser']; ?>" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Kirim ke Penguji</label>
+                            <select name="id_penguji" class="form-select" required>
+                                <option value="">-- Pilih Penguji --</option>
+                                <?php while ($pg = mysqli_fetch_assoc($penguji)) : ?>
+                                    <option value="<?= $pg['id_user']; ?>">
+                                        <?= $pg['nama']; ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" name="kirim" class="btn btn-success">
+                            Kirim
+                        </button>
                     </div>
 
                 </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Batal
-                    </button>
-                    <button type="submit" name="kirim" class="btn btn-success">
-                        Kirim
-                    </button>
-                </div>
-
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+<?php endif; ?>
