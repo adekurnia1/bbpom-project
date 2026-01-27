@@ -33,13 +33,15 @@ $query = mysqli_query($koneksi, "SELECT * FROM tbl_sampel ORDER BY no_spl_sipt")
                     <span class="h5 mb-0">
                         <i class="fa-solid fa-square-plus"></i> List Sampel
                     </span>
+                    <div class="d-flex gap-2 mb-0">
+                        <a href="add-kategori.php" class="btn btn-success">
+                            <i class="fas fa-plus"></i> Tambah Manual
+                        </a>
 
-                    <!-- FORM HANYA UNTUK TOMBOL -->
-                    <form action="add-sampel.php" method="GET" class="m-0">
-                        <button class="btn btn-primary">
-                            Tambah Sampel
-                        </button>
-                    </form>
+                        <a href="import-sampel-form.php" class="btn btn-primary">
+                            <i class="fas fa-file-import"></i> Import Batch
+                        </a>
+                    </div>
                 </div>
 
                 <!-- BODY -->
