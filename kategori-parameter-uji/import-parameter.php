@@ -16,17 +16,14 @@ if (isset($_POST['import'])) {
     $fileTmp  = $_FILES['file_csv']['tmp_name'];
     $ext      = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-    // ================= CSV =================
+    // File CSV
     if ($ext == 'csv') {
 
         $handle = fopen($fileTmp, "r");
-
-        // auto detect delimiter
         $test = fgetcsv($handle, 1000, ",");
         $delimiter = (count($test) > 1) ? "," : ";";
         rewind($handle);
 
-        // skip header
         fgetcsv($handle, 1000, $delimiter);
 
         while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE) {
@@ -64,14 +61,13 @@ if (isset($_POST['import'])) {
         fclose($handle);
     }
 
-    // ================= XLSX =================
+    // File Excel (XLSX)
     elseif ($ext == 'xlsx') {
 
         $spreadsheet = IOFactory::load($fileTmp);
         $sheet = $spreadsheet->getActiveSheet();
         $rows = $sheet->toArray();
 
-        // skip header
         for ($i = 1; $i < count($rows); $i++) {
 
             $row = $rows[$i];
