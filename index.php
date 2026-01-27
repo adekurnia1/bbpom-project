@@ -51,7 +51,7 @@ $libur2026 = [
             </ol>
             <div class="row">
 
-                <!-- TABEL REKAP BULAN MASUK (KIRI) -->
+                <!--TABEL REKAP SAMPEL BULAN MASUK-->
                 <div class="col-xl-6 col-lg-6 col-md-12 mb-4">
                     <div class="card h-100">
                         <div class="card-header">
@@ -77,12 +77,12 @@ $libur2026 = [
                                     $q = mysqli_query($koneksi, "
                                             SELECT 
                                                 bulan_masuk,
-                                                SUM(CASE WHEN asal_sampling = 'Balai Bandung' THEN 1 ELSE 0 END) AS bandung,
-                                                SUM(CASE WHEN asal_sampling = 'Balai Bogor' THEN 1 ELSE 0 END) AS bogor,
-                                                SUM(CASE WHEN asal_sampling = 'Balai Tasik' THEN 1 ELSE 0 END) AS tasik
+                                                SUM(CASE WHEN asal_sampling = 'Balai Bandung' THEN jumlah_sampel ELSE 0 END) AS bandung,
+                                                SUM(CASE WHEN asal_sampling = 'Balai Bogor' THEN jumlah_sampel ELSE 0 END) AS bogor,
+                                                SUM(CASE WHEN asal_sampling = 'Balai Tasik' THEN jumlah_sampel ELSE 0 END) AS tasik
                                             FROM tbl_spu
                                             GROUP BY bulan_masuk
-                                            ORDER BY bulan_masuk
+                                            ORDER BY bulan_masuk;
                                         ");
 
                                     while ($row = mysqli_fetch_assoc($q)) {
@@ -112,7 +112,7 @@ $libur2026 = [
                     </div>
                 </div>
 
-                <!-- TABEL PENGUJI (KANAN) -->
+                <!-- TABEL PENGUJI -->
                 <div class="col-xl-6 col-lg-6 col-md-12 mb-4">
                     <div class="card h-100">
                         <div class="card-header">
