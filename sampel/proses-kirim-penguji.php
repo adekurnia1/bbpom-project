@@ -9,19 +9,17 @@ if (!isset($_SESSION["ssLogin"])) {
 
 if (isset($_POST['kirim'])) {
 
-    $no_spl_sipt = $_POST['no_spl_sipt'];
+    $id_sampel   = $_POST['id_sampel'];   
     $id_penguji  = $_POST['id_penguji'];
     $id_penyelia = $_SESSION['ssId'];
 
     mysqli_query($koneksi, "
-        UPDATE tbl_sampel SET
-            status_sampel = 'selesai',
-            id_penyelia = '$id_penyelia',
-            id_penguji = '$id_penguji',
-            tgl_kirim = NOW()
-        WHERE no_spl_sipt = '$no_spl_sipt'
+        INSERT INTO tbl_pengiriman_sampel
+        (id_sampel, status_sampel, id_penyelia, id_penguji, tgl_kirim)
+        VALUES
+        ('$id_sampel', 'dikirim', '$id_penyelia', '$id_penguji', CURDATE())
     ");
 
-    header("location:view-sampel.php?no_spl_sipt=$no_spl_sipt&msg=dikirim");
+    header("location:view-sampel.php?id_sampel=$id_sampel&msg=dikirim");
     exit;
 }
