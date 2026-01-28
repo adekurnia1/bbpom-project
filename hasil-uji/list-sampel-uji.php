@@ -44,8 +44,6 @@ $query = mysqli_query($koneksi, "
                 <table class="table table-bordered table-striped align-middle" style="white-space:nowrap; table-layout:auto;">
                     <thead class="table-dark text-center">
                         <tr>
-                            <th>No SPL</th>
-                            <th>No SPU</th>
                             <th>Nama Sampel</th>
                             <th>Kategori</th>
                             <th>Parameter Uji</th>
@@ -62,25 +60,41 @@ $query = mysqli_query($koneksi, "
                             $qDone = mysqli_query($koneksi, "SELECT COUNT(*) AS done FROM tbl_hasil_uji WHERE no_spl_sipt = '{$row['no_spl_sipt']}' AND id_penguji = '$id_penguji' AND status_hasil = 'selesai'");
                             $done = mysqli_fetch_assoc($qDone)['done'];
 
-                            $qParam = mysqli_query($koneksi, "SELECT id_kategori_parameter, parameter_uji FROM tbl_kategori_parameter WHERE kategori = '{$row['kategori']}' ORDER BY parameter_uji");
+                            $qParam = mysqli_query($koneksi, "
+                                                    SELECT 
+                                                        kp.id_kategori_parameter,
+                                                        kp.parameter_uji,
+                                                        hu.hasil_uji,
+                                                        hu.status_hasil
+                                                    FROM tbl_kategori_parameter kp
+                                                    LEFT JOIN tbl_hasil_uji hu 
+                                                        ON hu.id_kategori_parameter = kp.id_kategori_parameter
+                                                        AND hu.no_spl_sipt = '{$row['no_spl_sipt']}'
+                                                        AND hu.id_penguji = '$id_penguji'
+                                                    WHERE kp.kategori = '{$row['kategori']}'
+                                                    ORDER BY kp.parameter_uji
+                                                ");
                             ?>
 
                             <tr>
-                                <td><?= $row['no_spl_sipt']; ?></td>
-                                <td><?= $row['no_spu']; ?></td>
                                 <td><?= $row['nama_sampel']; ?></td>
                                 <td><?= $row['kategori']; ?></td>
 
                                 <td>
                                     <ul class="mb-0">
                                         <?php while ($p = mysqli_fetch_assoc($qParam)) : ?>
-                                            <?php
-                                            $cek = mysqli_query($koneksi, "SELECT id_hasil_uji FROM tbl_hasil_uji WHERE no_spl_sipt = '{$row['no_spl_sipt']}' AND id_kategori_parameter = '{$p['id_kategori_parameter']}' AND id_penguji = '$id_penguji'");
-                                            $isi = mysqli_fetch_assoc($cek);
-                                            ?>
                                             <li>
-                                                <?= $p['parameter_uji']; ?>
-                                                <?= $isi ? '<span class="badge bg-success ms-1">✔</span>' : '<span class="badge bg-warning text-dark ms-1">⏳</span>'; ?>
+                                                <strong><?= $p['parameter_uji']; ?></strong><br>
+
+                                                <?php if ($p['hasil_uji']) : ?>
+                                                    <span class="text-success">
+                                                        Hasil: <?= htmlspecialchars($p['hasil_uji']); ?>
+                                                    </span>
+                                                <?php else : ?>
+                                                    <span class="text-muted fst-italic">
+                                                        Belum diinput
+                                                    </span>
+                                                <?php endif; ?>
                                             </li>
                                         <?php endwhile; ?>
                                     </ul>
