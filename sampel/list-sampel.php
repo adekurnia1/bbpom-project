@@ -34,7 +34,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM tbl_sampel ORDER BY no_spl_sipt")
                         <i class="fa-solid fa-square-plus"></i> List Sampel
                     </span>
                     <div class="d-flex gap-2 mb-0">
-                        <a href="add-kategori.php" class="btn btn-success">
+                        <a href="add-sampel.php" class="btn btn-success">
                             <i class="fas fa-plus"></i> Tambah Manual
                         </a>
 
