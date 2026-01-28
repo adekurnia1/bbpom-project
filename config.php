@@ -1,7 +1,7 @@
 <?php
 
 //connect ke database db_penyelia
-$koneksi = mysqli_connect("localhost","root","","db_penyelia");
+$koneksi = mysqli_connect("localhost","root","","db_pengujian");
 
 // cek koneksi ke database
 // if (mysqli_connect_errno()){

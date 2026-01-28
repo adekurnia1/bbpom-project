@@ -16,6 +16,7 @@ require_once "../config.php";
 $id_penguji = $_SESSION['ssId'];
 
 $title = "List Sampel Uji";
+
 require_once "../template/header.php";
 require_once "../template/navbar.php";
 require_once "../template/sidebar.php";
@@ -27,9 +28,10 @@ $query = mysqli_query($koneksi, "
         s.no_spu,
         s.nama_sampel,
         s.kategori
-    FROM tbl_sampel s
-    WHERE LOWER(TRIM(s.status_sampel)) = 'dikirim'
-      AND s.id_penguji = '$id_penguji'
+    FROM tbl_pengiriman_sampel p
+    JOIN tbl_sampel s ON s.no_spl_sipt = p.no_spl_sipt
+    WHERE p.id_penguji = '$id_penguji'
+      AND p.status_sampel = 'dikirim'
     ORDER BY s.no_spl_sipt
 ");
 ?>
@@ -99,5 +101,6 @@ $query = mysqli_query($koneksi, "
                     </tbody>
                 </table>
             </div>
+        </div>
     </main>
 </div>
