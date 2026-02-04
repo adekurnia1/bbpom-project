@@ -77,7 +77,7 @@ if (!$q) {
                         <td><?= $r['penguji'] ?></td>
 
                         <td class="text-center">
-                            <?php if ($r['status_sampel'] == 'selesai') { ?>
+                            <?php if ($r['status_pengiriman'] == 'selesai') { ?>
                                 <span class="badge bg-success">Selesai</span>
                             <?php } else { ?>
                                 <span class="badge bg-warning">Dikirim</span>
@@ -85,14 +85,14 @@ if (!$q) {
                         </td>
 
                         <td class="text-center">
-                            <?php if ($r['status_sampel'] == 'selesai') { ?>
+                            <?php if ($r['status_pengiriman'] == 'selesai') { ?>
                                 <a href="../file_spp/<?= $r['file_spp'] ?>"
                                     target="_blank"
                                     class="btn btn-danger btn-sm">
                                     Download
                                 </a>
                             <?php } else { ?>
-                                <span class="text-muted">Menunggu TTD Penguji</span>
+                                <span class="text-muted">Menunggu ACC Penguji</span>
                             <?php } ?>
                         </td>
                     </tr>
