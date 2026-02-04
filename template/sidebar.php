@@ -18,7 +18,15 @@ $role = $_SESSION['ssRole'];
                         Dashboard
                     </a>
                     <hr class="mb-0">
-                    
+
+                    <a class="nav-link" href="<?= $main_url ?>sampel/riwayat-sampel.php">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-solid fa-check-circle"></i>
+                        </div>
+                        Riwayat Sampel
+                    </a>
+                    <hr class="mb-0">
+
                     <!-- DATA : KETUA TIM & PENYELIA -->
                     <?php if ($role == 'penyelia' || $role == 'ketua_tim') : ?>
 
@@ -67,14 +75,6 @@ $role = $_SESSION['ssRole'];
                         <hr class="mb-0">
 
                         <a class="nav-link" href="<?= $main_url ?>verifikasi-hasil-uji/verifikasi-hasil-uji.php">
-                            <div class="sb-nav-link-icon">
-                                <i class="fa-solid fa-check-circle"></i>
-                            </div>
-                            Verifikasi Hasil Uji
-                        </a>
-                        <hr class="mb-0">
-
-                        <a class="nav-link" href="<?= $main_url ?>sampel/riwayat-sampel.php">
                             <div class="sb-nav-link-icon">
                                 <i class="fa-solid fa-check-circle"></i>
                             </div>
