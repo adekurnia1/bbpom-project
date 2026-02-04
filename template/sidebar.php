@@ -74,6 +74,14 @@ $role = $_SESSION['ssRole'];
                         </a>
                         <hr class="mb-0">
 
+                        <a class="nav-link" href="<?= $main_url ?>sampel/riwayat-sampel.php">
+                            <div class="sb-nav-link-icon">
+                                <i class="fa-solid fa-check-circle"></i>
+                            </div>
+                            Verifikasi Hasil Uji
+                        </a>
+                        <hr class="mb-0">
+
                     <?php endif; ?>
 
                     <!-- DATA : PENGUJI -->
