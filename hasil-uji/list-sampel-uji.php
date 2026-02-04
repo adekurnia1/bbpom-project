@@ -21,27 +21,31 @@ require_once "../template/header.php";
 require_once "../template/navbar.php";
 require_once "../template/sidebar.php";
 
-// Query utama (fixed)
+// Hanya yang SUDAH DITERIMA & BELUM SELESAI
 $query = mysqli_query($koneksi, "
     SELECT 
         s.no_spl_sipt,
         s.no_spu,
         s.nama_sampel,
-        s.kategori
+        s.kategori,
+        p.status_uji
     FROM tbl_pengiriman_sampel p
     JOIN tbl_sampel s ON s.no_spl_sipt = p.no_spl_sipt
     WHERE p.id_penguji = '$id_penguji'
-      AND p.status_sampel = 'dikirim'
+      AND p.status_pengiriman = 'diterima'
+      AND p.status_uji != 'selesai'
     ORDER BY s.no_spl_sipt
 ");
+
+if (!$query) die(mysqli_error($koneksi));
 ?>
 
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4 mt-4">
-            <div class="table-responsive" style="overflow-x:auto;">
-                <?php if (!$query) die(mysqli_error($koneksi)); ?>
-                <table class="table table-bordered table-striped align-middle" style="white-space:nowrap; table-layout:auto;">
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped align-middle">
                     <thead class="table-dark text-center">
                         <tr>
                             <th>Nama Sampel</th>
@@ -52,28 +56,59 @@ $query = mysqli_query($koneksi, "
                         </tr>
                     </thead>
                     <tbody>
+
+                        <?php if (mysqli_num_rows($query) == 0) { ?>
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">
+                                    Tidak ada sampel yang perlu diuji
+                                </td>
+                            </tr>
+                        <?php } ?>
+
                         <?php while ($row = mysqli_fetch_assoc($query)) : ?>
                             <?php
-                            $qTotal = mysqli_query($koneksi, "SELECT COUNT(*) AS total FROM tbl_kategori_parameter WHERE kategori = '{$row['kategori']}'");
+                            $qTotal = mysqli_query($koneksi, "
+                                SELECT COUNT(*) AS total 
+                                FROM tbl_kategori_parameter 
+                                WHERE kategori = '{$row['kategori']}'
+                            ");
                             $total = mysqli_fetch_assoc($qTotal)['total'];
 
-                            $qDone = mysqli_query($koneksi, "SELECT COUNT(*) AS done FROM tbl_hasil_uji WHERE no_spl_sipt = '{$row['no_spl_sipt']}' AND id_penguji = '$id_penguji' AND status_hasil = 'selesai'");
+                            $qDone = mysqli_query($koneksi, "
+                                SELECT COUNT(*) AS done 
+                                FROM tbl_hasil_uji 
+                                WHERE no_spl_sipt = '{$row['no_spl_sipt']}'
+                                  AND id_penguji = '$id_penguji'
+                                  AND status_hasil = 'selesai'
+                            ");
                             $done = mysqli_fetch_assoc($qDone)['done'];
 
+                            // Auto update status_uji
+                            if ($done == 0) {
+                                $status = 'menunggu';
+                            } elseif ($done < $total) {
+                                $status = 'proses';
+                            } else {
+                                $status = 'selesai';
+                                mysqli_query($koneksi, "
+                                    UPDATE tbl_pengiriman_sampel
+                                    SET status_uji = 'selesai'
+                                    WHERE no_spl_sipt = '{$row['no_spl_sipt']}'
+                                ");
+                            }
+
                             $qParam = mysqli_query($koneksi, "
-                                                    SELECT 
-                                                        kp.id_kategori_parameter,
-                                                        kp.parameter_uji,
-                                                        hu.hasil_uji,
-                                                        hu.status_hasil
-                                                    FROM tbl_kategori_parameter kp
-                                                    LEFT JOIN tbl_hasil_uji hu 
-                                                        ON hu.id_kategori_parameter = kp.id_kategori_parameter
-                                                        AND hu.no_spl_sipt = '{$row['no_spl_sipt']}'
-                                                        AND hu.id_penguji = '$id_penguji'
-                                                    WHERE kp.kategori = '{$row['kategori']}'
-                                                    ORDER BY kp.parameter_uji
-                                                ");
+                                SELECT 
+                                    kp.parameter_uji,
+                                    hu.hasil_uji
+                                FROM tbl_kategori_parameter kp
+                                LEFT JOIN tbl_hasil_uji hu 
+                                    ON hu.id_kategori_parameter = kp.id_kategori_parameter
+                                    AND hu.no_spl_sipt = '{$row['no_spl_sipt']}'
+                                    AND hu.id_penguji = '$id_penguji'
+                                WHERE kp.kategori = '{$row['kategori']}'
+                                ORDER BY kp.parameter_uji
+                            ");
                             ?>
 
                             <tr>
@@ -85,27 +120,30 @@ $query = mysqli_query($koneksi, "
                                         <?php while ($p = mysqli_fetch_assoc($qParam)) : ?>
                                             <li>
                                                 <strong><?= $p['parameter_uji']; ?></strong><br>
-
-                                                <?php if ($p['hasil_uji']) : ?>
-                                                    <span class="text-success">
-                                                        Hasil: <?= htmlspecialchars($p['hasil_uji']); ?>
-                                                    </span>
-                                                <?php else : ?>
-                                                    <span class="text-muted fst-italic">
-                                                        Belum diinput
-                                                    </span>
-                                                <?php endif; ?>
+                                                <?= $p['hasil_uji']
+                                                    ? '<span class="text-success">Hasil: ' . htmlspecialchars($p['hasil_uji']) . '</span>'
+                                                    : '<span class="text-muted fst-italic">Belum diinput</span>'
+                                                ?>
                                             </li>
                                         <?php endwhile; ?>
                                     </ul>
                                 </td>
 
                                 <td class="text-center">
-                                    <?= $done == 0 ? '<span class="badge bg-danger">Belum Input</span>' : ($done < $total ? '<span class="badge bg-warning text-dark">Sebagian</span>' : '<span class="badge bg-success">Sudah Input</span>'); ?>
+                                    <?php
+                                    if ($status == 'menunggu') {
+                                        echo '<span class="badge bg-danger">Belum Input</span>';
+                                    } elseif ($status == 'proses') {
+                                        echo '<span class="badge bg-warning text-dark">Sebagian</span>';
+                                    } else {
+                                        echo '<span class="badge bg-success">Sudah Input</span>';
+                                    }
+                                    ?>
                                 </td>
 
                                 <td class="text-center">
-                                    <a href="input-hasil-uji.php?no_spl_sipt=<?= $row['no_spl_sipt']; ?>" class="btn btn-sm btn-primary">
+                                    <a href="input-hasil-uji.php?no_spl_sipt=<?= $row['no_spl_sipt']; ?>"
+                                        class="btn btn-sm btn-primary">
                                         Input Hasil
                                     </a>
                                 </td>
