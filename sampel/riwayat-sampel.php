@@ -27,6 +27,7 @@ $q = mysqli_query($koneksi, "
         ps.no_spl_sipt,
         ps.tgl_kirim,
         ps.status_pengiriman,
+        ps.status_uji,
         ps.file_spp,
         u1.nama AS penyelia,
         u2.nama AS penguji
@@ -37,19 +38,16 @@ $q = mysqli_query($koneksi, "
     ORDER BY ps.tgl_kirim DESC
 ");
 
-if (!$q) {
-    die(mysqli_error($koneksi));
-}
+if (!$q) die(mysqli_error($koneksi));
 ?>
 
-<!-- WRAPPER WAJIB -->
 <div id="layoutSidenav_content">
     <main class="container-fluid px-4 mt-4">
 
-        <h3 class="mb-3">Riwayat Pengiriman Sampel</h3>
+        <h3 class="mb-3">Riwayat Pengujian Sampel</h3>
 
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-dark text-center">
                 <tr>
                     <th>No SPL</th>
                     <th>Tgl Kirim</th>
@@ -77,22 +75,26 @@ if (!$q) {
                         <td><?= $r['penguji'] ?></td>
 
                         <td class="text-center">
-                            <?php if ($r['status_pengiriman'] == 'selesai') { ?>
-                                <span class="badge bg-success">Selesai</span>
-                            <?php } else { ?>
-                                <span class="badge bg-warning">Dikirim</span>
-                            <?php } ?>
+                            <?php
+                            if ($r['status_uji'] == 'selesai') {
+                                echo '<span class="badge bg-success">Selesai</span>';
+                            } elseif ($r['status_pengiriman'] == 'diterima') {
+                                echo '<span class="badge bg-primary">Proses Uji</span>';
+                            } else {
+                                echo '<span class="badge bg-warning">Dikirim</span>';
+                            }
+                            ?>
                         </td>
 
                         <td class="text-center">
-                            <?php if ($r['status_pengiriman'] == 'selesai') { ?>
+                            <?php if (!empty($r['file_spp'])) { ?>
                                 <a href="../file_spp/<?= $r['file_spp'] ?>"
-                                    target="_blank"
-                                    class="btn btn-danger btn-sm">
+                                   target="_blank"
+                                   class="btn btn-danger btn-sm">
                                     Download
                                 </a>
                             <?php } else { ?>
-                                <span class="text-muted">Menunggu ACC Penguji</span>
+                                <span class="text-muted">Belum ada dokumen</span>
                             <?php } ?>
                         </td>
                     </tr>
