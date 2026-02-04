@@ -26,6 +26,7 @@ try {
     mysqli_query($koneksi, "
         UPDATE tbl_pengiriman_sampel
         SET status_pengiriman = 'diterima',
+            status_uji = 'proses',
             tgl_terima = NOW()
         WHERE id_pengiriman = '$id_pengiriman'
           AND id_penguji = '$id_penguji'
@@ -51,7 +52,7 @@ try {
 
     $data = mysqli_fetch_assoc($q);
 
-    // ==================== 3. GENERATE PDF BARU ====================
+    // ==================== 3. GENERATE PDF (V2 RESMI) ====================
     ob_start();
     include "../doc_templates/template_spp.php";
     $html = ob_get_clean();
@@ -61,12 +62,19 @@ try {
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
-    // ==================== 4. OVERWRITE FILE ====================
-    $filename = $data['file_spp']; // pakai file lama
+    // ==================== 4. SIMPAN FILE BARU ====================
+    $filename = "SPP_{$data['no_spl_sipt']}_FINAL.pdf";
     $path = "../file_spp/" . $filename;
     file_put_contents($path, $dompdf->output());
 
-    // ==================== 5. COMMIT ====================
+    // ==================== 5. UPDATE PATH ====================
+    mysqli_query($koneksi, "
+        UPDATE tbl_pengiriman_sampel
+        SET file_spp = '$filename'
+        WHERE id_pengiriman = '$id_pengiriman'
+    ");
+
+    // ==================== 6. COMMIT ====================
     mysqli_commit($koneksi);
 
     header("location:list-sampel-penguji.php?msg=diterima");
