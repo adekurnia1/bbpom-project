@@ -97,6 +97,13 @@ $role = $_SESSION['ssRole'];
                         </a>
                         <hr class="mb-0">
 
+                        <a class="nav-link" href="<?= $main_url ?>sampel/inbox-sampel-penguji.php">
+                            <div class="sb-nav-link-icon">
+                                <i class="fa-solid fa-microscope"></i>
+                            </div>
+                            Sampel Masuk
+                        </a>
+                        <hr class="mb-0">
                     <?php endif; ?>
 
                 </div>
