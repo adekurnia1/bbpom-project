@@ -15,7 +15,7 @@ if (!isset($_POST['kirim'])) {
     exit;
 }
 
-$no_spl_sipt = mysqli_real_escape_string($koneksi, $_POST['no_spl_sipt']); 
+$no_spl_sipt = mysqli_real_escape_string($koneksi, $_POST['no_spl_sipt']);
 $id_penguji  = mysqli_real_escape_string($koneksi, $_POST['id_penguji']);
 $id_penyelia = $_SESSION['ssId'];
 
@@ -39,10 +39,10 @@ try {
 
     // SIMPAN PENGIRIMAN
     mysqli_query($koneksi, "
-        INSERT INTO tbl_pengiriman_sampel
-        (no_spl_sipt, status_pengiriman, id_penyelia, id_penguji, tgl_kirim)
-        VALUES
-        ('$no_spl_sipt', 'dikirim', '$id_penyelia', '$id_penguji', NOW())
+    INSERT INTO tbl_pengiriman_sampel
+    (no_spl_sipt, id_penyelia, id_penguji, status_pengiriman, status_uji)
+    VALUES
+    ('$no_spl_sipt', '$id_penyelia', '$id_penguji', 'dikirim', 'menunggu')
     ");
 
     // ==================== 3. AMBIL DATA PDF ====================
@@ -91,7 +91,6 @@ try {
 
     header("location:view-sampel.php?no_spl_sipt=$no_spl_sipt&msg=dikirim");
     exit;
-
 } catch (Exception $e) {
     mysqli_rollback($koneksi);
     echo "Gagal mengirim sampel: " . $e->getMessage();
