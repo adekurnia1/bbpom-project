@@ -1,51 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-body { font-family: Arial; font-size: 11px; }
-table { width:100%; border-collapse:collapse; }
-td, th { border:1px solid black; padding:4px; }
-</style>
+    <meta charset="UTF-8">
+    <style>
+        body { 
+            font-family: Arial, Helvetica, sans-serif; 
+            font-size: 11px; 
+        }
+        .center { text-align: center; }
+        table { 
+            width:100%; 
+            border-collapse: collapse; 
+            margin-bottom: 10px;
+        }
+        td, th { 
+            border:1px solid black; 
+            padding:4px; 
+            vertical-align: top;
+        }
+        .no-border td { border:0; }
+    </style>
 </head>
 <body>
 
-<h3 style="text-align:center">SURAT PERINTAH PENGUJIAN</h3>
+<h3 class="center">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</h3>
+<h4 class="center">JL. PASTEUR NO. 25 BANDUNG 40171</h4>
+
+<h3 class="center" style="margin-top:20px;">SURAT PERINTAH PENGUJIAN (SPP)</h3>
+
+<p>Kepada Petugas Penguji, agar dilakukan pengujian terhadap contoh berikut:</p>
 
 <table>
-<tr><td>Nama Contoh</td><td><?= $brand ?> <?= $nama_sampel ?></td></tr>
-<tr><td>Kode Contoh</td><td><?= $kode_contoh ?></td></tr>
-<tr><td>No Batch</td><td><?= $no_batch ?></td></tr>
-<tr><td>Kategori</td><td><?= $kategori ?></td></tr>
-<tr><td>SPU</td><td><?= $no_spu ?></td></tr>
-<tr><td>Tgl SPP</td><td><?= $tgl_spu ?></td></tr>
+<tr>
+    <td width="30%">Nama Contoh</td>
+    <td><?= $data['brand'] ?> <?= $data['nama_sampel'] ?></td>
+</tr>
+<tr>
+    <td>Kode Contoh</td>
+    <td>
+        <?= $data['no_spl_sipt'] ?> /
+        <?= date('m-Y', strtotime($data['tgl_spk'])) ?> /
+        <?= $data['asal_sampling'] ?> /
+        <?= $data['no_spl_lab'] ?> /
+        <?= $data['nama_penguji'] ?>
+    </td>
+</tr>
+<tr>
+    <td>No Batch</td>
+    <td><?= $data['no_batch'] ?></td>
+</tr>
+<tr>
+    <td>Komposisi</td>
+    <td><?= $data['komposisi'] ?></td>
+</tr>
+<tr>
+    <td>Kategori</td>
+    <td><?= $data['kategori'] ?></td>
+</tr>
+<tr>
+    <td>SPU</td>
+    <td><?= $data['no_spu'] ?></td>
+</tr>
+<tr>
+    <td>Tanggal SPU</td>
+    <td><?= date('d-m-Y', strtotime($data['tgl_spk'])) ?></td>
+</tr>
+<tr>
+    <td>Timeline</td>
+    <td><?= $data['timeline'] ?></td>
+</tr>
 </table>
 
-<br>
+<h4>Parameter Pengujian</h4>
 
 <table>
-<tr>
-<th>Parameter Uji</th>
-<th>Metoda</th>
-<th>Pustaka</th>
+<tr class="center">
+    <th width="40%">Parameter Uji</th>
+    <th width="30%">Metoda</th>
+    <th width="30%">Pustaka</th>
 </tr>
 
-<?php foreach($parameter as $p): ?>
+<?php
+$qParam = mysqli_query($koneksi, "
+    SELECT parameter_uji, metode, pustaka 
+    FROM tbl_kategori_parameter 
+    WHERE kategori = '{$data['kategori']}'
+    ORDER BY parameter_uji
+");
+
+while ($p = mysqli_fetch_assoc($qParam)) {
+?>
 <tr>
-<td><?= $p['parameter_uji'] ?></td>
-<td><?= $p['metode'] ?></td>
-<td><?= $p['pustaka'] ?></td>
+    <td><?= $p['parameter_uji'] ?></td>
+    <td><?= $p['metode'] ?></td>
+    <td><?= $p['pustaka'] ?></td>
 </tr>
-<?php endforeach; ?>
+<?php } ?>
 </table>
 
 <br><br>
 
-<table style="border:0">
+<table class="no-border">
 <tr>
-<td>Penguji<br><br><br><?= $nama_penguji ?></td>
-<td>Penyelia<br><br><br><?= $nama_penyelia ?></td>
+    <td width="50%" class="center">
+        Penyelia<br><br><br><br>
+        <u><?= $data['nama_penyelia'] ?></u>
+    </td>
+    <td width="50%" class="center">
+        Penguji<br><br><br><br>
+        <?php if($data['status_pengiriman'] == 'diterima'){ ?>
+            <u><?= $data['nama_penguji'] ?></u>
+        <?php } else { ?>
+            <i>(Belum ditandatangani)</i>
+        <?php } ?>
+    </td>
 </tr>
 </table>
+
+<p style="margin-top:30px;">
+Tanggal Cetak: <?= date('d-m-Y H:i') ?>
+</p>
 
 </body>
 </html>
