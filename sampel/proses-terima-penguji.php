@@ -44,5 +44,5 @@ mysqli_query($koneksi, "
 ");
 
 /* redirect */
-header("location:list-sampel-uji.php?msg=diterima");
+header("location:../hasil-uji/list-sampel-uji.php?msg=diterima");
 exit;
