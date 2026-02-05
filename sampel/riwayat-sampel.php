@@ -76,27 +76,28 @@ if (!$q) die(mysqli_error($koneksi));
 
                         <td class="text-center">
                             <?php
-                            if ($r['status_uji'] == 'selesai') {
-                                echo '<span class="badge bg-success">Selesai</span>';
-                            } elseif ($r['status_pengiriman'] == 'diterima') {
-                                echo '<span class="badge bg-primary">Proses Uji</span>';
+                            if ($r['status_pengiriman'] == 'diterima') {
+                                echo '<span class="badge bg-success">Diterima</span>';
                             } else {
                                 echo '<span class="badge bg-warning">Dikirim</span>';
                             }
                             ?>
                         </td>
-
                         <td class="text-center">
-                            <?php if (!empty($r['file_spp'])) { ?>
+                            <?php
+                            if ($r['status_pengiriman'] == 'diterima' && !empty($r['file_spp'])) { ?>
                                 <a href="../file_spp/<?= $r['file_spp'] ?>"
-                                   target="_blank"
-                                   class="btn btn-danger btn-sm">
+                                    target="_blank"
+                                    class="btn btn-danger btn-sm">
                                     Download
                                 </a>
+                            <?php } elseif ($r['status_pengiriman'] == 'dikirim') { ?>
+                                <span class="text-muted">Menunggu ACC Penguji</span>
                             <?php } else { ?>
                                 <span class="text-muted">Belum ada dokumen</span>
                             <?php } ?>
                         </td>
+
                     </tr>
                 <?php } ?>
 
