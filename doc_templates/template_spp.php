@@ -1,125 +1,147 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <style>
-        body { 
-            font-family: Arial, Helvetica, sans-serif; 
-            font-size: 11px; 
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
         }
-        .center { text-align: center; }
-        table { 
-            width:100%; 
-            border-collapse: collapse; 
+
+        .center {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-bottom: 10px;
         }
-        td, th { 
-            border:1px solid black; 
-            padding:4px; 
+
+        td,
+        th {
+            border: 1px solid black;
+            padding: 4px;
             vertical-align: top;
         }
-        .no-border td { border:0; }
+
+        .no-border td {
+            border: 0;
+        }
     </style>
 </head>
+
 <body>
 
-<h3 class="center">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</h3>
-<h4 class="center">JL. PASTEUR NO. 25 BANDUNG 40171</h4>
+    <h3 class="center">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</h3>
+    <h4 class="center">JL. PASTEUR NO. 25 BANDUNG 40171</h4>
 
-<h3 class="center" style="margin-top:20px;">SURAT PERINTAH PENGUJIAN (SPP)</h3>
+    <h3 class="center" style="margin-top:20px;">SURAT PERINTAH PENGUJIAN</h3>
 
-<p>Kepada Petugas Penguji, agar dilakukan pengujian terhadap contoh berikut:</p>
+    <p>Kepada Petugas Penguji, agar dilakukan pengujian terhadap contoh berikut:</p>
 
-<table>
-<tr>
-    <td width="30%">Nama Contoh</td>
-    <td><?= $data['brand'] ?> <?= $data['nama_sampel'] ?></td>
-</tr>
-<tr>
-    <td>Kode Contoh</td>
-    <td>
-        <?= $data['no_spl_sipt'] ?> /
-        <?= date('m-Y', strtotime($data['tgl_spk'])) ?> /
-        <?= $data['asal_sampling'] ?> /
-        <?= $data['no_spl_lab'] ?> /
-        <?= $data['nama_penguji'] ?>
-    </td>
-</tr>
-<tr>
-    <td>No Batch</td>
-    <td><?= $data['no_batch'] ?></td>
-</tr>
-<tr>
-    <td>Komposisi</td>
-    <td><?= $data['komposisi'] ?></td>
-</tr>
-<tr>
-    <td>Kategori</td>
-    <td><?= $data['kategori'] ?></td>
-</tr>
-<tr>
-    <td>SPU</td>
-    <td><?= $data['no_spu'] ?></td>
-</tr>
-<tr>
-    <td>Tanggal SPU</td>
-    <td><?= date('d-m-Y', strtotime($data['tgl_spk'])) ?></td>
-</tr>
-<tr>
-    <td>Timeline</td>
-    <td><?= $data['timeline'] ?></td>
-</tr>
-</table>
+    <table>
+        <tr>
+            <td width="20%">Nama Contoh</td>
+            <td><?= $data['brand'] ?> <?= $data['nama_sampel'] ?></td>
+            <td rowspan="3"><?= $data['komposisi'] ?></td>
+        </tr>
+        <tr>
+            <td>Kode Contoh</td>
+            <td>
+                <?= $data['no_spl_sipt'] ?> /
+                <?= date('m-Y', strtotime($data['tgl_spk'])) ?> /
+                <?= $data['asal_sampling'] ?> /
+                <?= $data['no_spl_lab'] ?> /
+                <?= $data['nama_penguji'] ?>
+            </td>
+        </tr>
+        <tr>
+            <td>No Batch</td>
+            <td><?= $data['no_batch'] ?></td>
+        </tr>
+    </table>
 
-<h4>Parameter Pengujian</h4>
+    <br>
 
-<table>
-<tr class="center">
-    <th width="40%">Parameter Uji</th>
-    <th width="30%">Metoda</th>
-    <th width="30%">Pustaka</th>
-</tr>
-
-<?php
-$qParam = mysqli_query($koneksi, "
+    <table>
+        <tr>
+            <th width="60%">PARAMETER UJI</th>
+            <th width="20%">METODA</th>
+            <th width="20%">PUSTAKA</th>
+        </tr>
+        <?php
+        $qParam = mysqli_query($koneksi, "
     SELECT parameter_uji, metode, pustaka 
     FROM tbl_kategori_parameter 
     WHERE kategori = '{$data['kategori']}'
     ORDER BY parameter_uji
 ");
 
-while ($p = mysqli_fetch_assoc($qParam)) {
-?>
-<tr>
-    <td><?= $p['parameter_uji'] ?></td>
-    <td><?= $p['metode'] ?></td>
-    <td><?= $p['pustaka'] ?></td>
-</tr>
-<?php } ?>
-</table>
-
-<br><br>
-
-<table class="no-border">
-<tr>
-    <td width="50%" class="center">
-        Penyelia<br><br><br><br>
-        <u><?= $data['nama_penyelia'] ?></u>
-    </td>
-    <td width="50%" class="center">
-        Penguji<br><br><br><br>
-        <?php if($data['status_pengiriman'] == 'diterima'){ ?>
-            <u><?= $data['nama_penguji'] ?></u>
-        <?php } else { ?>
-            <i>(Belum ditandatangani)</i>
+        while ($p = mysqli_fetch_assoc($qParam)) {
+        ?>
+            <tr>
+                <td><?= $p['parameter_uji'] ?></td>
+                <td><?= $p['metode'] ?></td>
+                <td><?= $p['pustaka'] ?></td>
+            </tr>
         <?php } ?>
-    </td>
-</tr>
-</table>
+    </table>
 
-<p style="margin-top:30px;">
-Tanggal Cetak: <?= date('d-m-Y H:i') ?>
-</p>
+    <br><br>
+
+    <table class="no-border" style="width:100%;">
+        <tr>
+            <td width="15%"><strong>Catatan</strong></td>
+            <td width="2%">:</td>
+            <td width="83%"></td>
+        </tr>
+        <tr>
+            <td>Tgl SPP</td>
+            <td>:</td>
+            <td><?= $data['tgl_spk'] ?></td>
+        </tr>
+        <tr>
+            <td>Timeline</td>
+            <td>:</td>
+            <td><?= $data['timeline'] ?></td>
+        </tr>
+        <tr>
+            <td>SPU</td>
+            <td>:</td>
+            <td><?= $data['spu'] ?></td>
+        </tr>
+        <tr>
+            <td>Kategori</td>
+            <td>:</td>
+            <td><?= $data['kategori'] ?></td>
+        </tr>
+    </table>
+
+    <br><br><br>
+
+    <table class="no-border" style="width:100%; text-align:center;">
+        <tr>
+            <td width="50%" class="center">
+                Penyelia<br><br><br><br>
+                <u><?= $data['nama_penyelia'] ?></u>
+            </td>
+            <td width="50%" class="center">
+                Penguji<br><br><br><br>
+                <?php if ($data['status_pengiriman'] == 'diterima') { ?>
+                    <u><?= $data['nama_penguji'] ?></u>
+                <?php } else { ?>
+                    <i>(Belum ditandatangani)</i>
+                <?php } ?>
+            </td>
+        </tr>
+    </table>
+
+    <p style="margin-top:30px;">
+        Tanggal Cetak: <?= date('d-m-Y H:i') ?>
+    </p>
 
 </body>
+
 </html>
