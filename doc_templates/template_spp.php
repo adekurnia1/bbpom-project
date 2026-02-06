@@ -62,6 +62,8 @@
         </tr>
     </table>
 
+    <br>
+
     <table>
         <tr>
             <th width="60%">PARAMETER UJI</th>
@@ -76,36 +78,58 @@
     WHERE kategori = '{$data['kategori']}'
     ORDER BY parameter_uji
 ");
-        while ($p = mysqli_fetch_assoc($qParam)) {
+
+        $params = [];
+        while ($row = mysqli_fetch_assoc($qParam)) {
+            $params[] = $row;
+        }
+
+        $totalRow = 24;
+
+        for ($i = 0; $i < $totalRow; $i++) {
+
+            $param = $params[$i]['parameter_uji'] ?? '';
+            $metode = $params[$i]['metode'] ?? '';
+            $pustaka = $params[$i]['pustaka'] ?? '';
         ?>
             <tr>
-                <td><?= $p['parameter_uji'] ?></td>
-                <td><?= $p['metode'] ?></td>
-                <td><?= $p['pustaka'] ?></td>
+                <td>
+                    <input type="checkbox" style="width:10px;height:10px;">
+                    <?= $param ?>
+                </td>
+                <td class="center"><?= $metode ?></td>
+                <td class="center"><?= $pustaka ?></td>
             </tr>
         <?php } ?>
     </table>
 
-    <table class="no-border">
+    <br><br>
+
+    <table class="no-border" style="width:100%;">
         <tr>
-            <td width="20%">Tgl SPP</td>
-            <td><?= date('d-m-Y', strtotime($data['tgl_spk'])) ?></td>
+            <td width="15%"><strong>Catatan</strong></td>
+            <td width="2%">:</td>
+            <td width="83%"></td>
         </tr>
         <tr>
-            <td>Timeline</td>
+            <td>Tgl SPP :</td>
+            <td><?= $data['tgl_spk'] ?></td>
+        </tr>
+        <tr>
+            <td>Timeline :</td>
             <td><?= $data['timeline'] ?></td>
         </tr>
         <tr>
-            <td>SPU</td>
+            <td>SPU :</td>
             <td><?= $data['no_spu'] ?></td>
         </tr>
         <tr>
-            <td>Kategori</td>
+            <td>Kategori :</td>
             <td><?= $data['kategori'] ?></td>
         </tr>
     </table>
 
-    <br><br>
+    <br><br><br>
 
     <table class="no-border" style="text-align:center;">
         <tr>
