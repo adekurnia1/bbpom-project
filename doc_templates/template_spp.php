@@ -52,18 +52,15 @@
             <td>
                 <?= $data['no_spl_sipt'] ?> /
                 <?= date('m-Y', strtotime($data['tgl_spk'])) ?> /
-                <?= $data['asal_sampling'] ?> /
-                <?= $data['no_spl_lab'] ?> /
+                <?= $data['no_spu'] ?> /
                 <?= $data['nama_penguji'] ?>
             </td>
         </tr>
         <tr>
             <td>No Batch</td>
-            <td><?= $data['no_batch'] ?></td>
+            <td><?= $data['no_bet'] ?></td>
         </tr>
     </table>
-
-    <br>
 
     <table>
         <tr>
@@ -71,6 +68,7 @@
             <th width="20%">METODA</th>
             <th width="20%">PUSTAKA</th>
         </tr>
+
         <?php
         $qParam = mysqli_query($koneksi, "
     SELECT parameter_uji, metode, pustaka 
@@ -78,7 +76,6 @@
     WHERE kategori = '{$data['kategori']}'
     ORDER BY parameter_uji
 ");
-
         while ($p = mysqli_fetch_assoc($qParam)) {
         ?>
             <tr>
@@ -89,46 +86,36 @@
         <?php } ?>
     </table>
 
-    <br><br>
-
-    <table class="no-border" style="width:100%;">
+    <table class="no-border">
         <tr>
-            <td width="15%"><strong>Catatan</strong></td>
-            <td width="2%">:</td>
-            <td width="83%"></td>
-        </tr>
-        <tr>
-            <td>Tgl SPP</td>
-            <td>:</td>
-            <td><?= $data['tgl_spk'] ?></td>
+            <td width="20%">Tgl SPP</td>
+            <td><?= date('d-m-Y', strtotime($data['tgl_spk'])) ?></td>
         </tr>
         <tr>
             <td>Timeline</td>
-            <td>:</td>
             <td><?= $data['timeline'] ?></td>
         </tr>
         <tr>
             <td>SPU</td>
-            <td>:</td>
-            <td><?= $data['spu'] ?></td>
+            <td><?= $data['no_spu'] ?></td>
         </tr>
         <tr>
             <td>Kategori</td>
-            <td>:</td>
             <td><?= $data['kategori'] ?></td>
         </tr>
     </table>
 
-    <br><br><br>
+    <br><br>
 
-    <table class="no-border" style="width:100%; text-align:center;">
+    <table class="no-border" style="text-align:center;">
         <tr>
-            <td width="50%" class="center">
-                Penyelia<br><br><br><br>
+            <td width="50%">
+                Penyelia<br><br><br>
                 <u><?= $data['nama_penyelia'] ?></u>
             </td>
-            <td width="50%" class="center">
-                Penguji<br><br><br><br>
+
+            <td width="50%">
+                Penguji<br><br><br>
                 <?php if ($data['status_pengiriman'] == 'diterima') { ?>
                     <u><?= $data['nama_penguji'] ?></u>
                 <?php } else { ?>
@@ -138,9 +125,7 @@
         </tr>
     </table>
 
-    <p style="margin-top:30px;">
-        Tanggal Cetak: <?= date('d-m-Y H:i') ?>
-    </p>
+    <p>Tanggal Cetak: <?= date('d-m-Y H:i') ?></p>
 
 </body>
 
