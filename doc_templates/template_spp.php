@@ -29,6 +29,20 @@
         .no-border td {
             border: 0;
         }
+
+        .param-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+        .param-box span {
+            line-height: 1.2;
+        }
+        .param-box input {
+            width: 11px;
+            height: 11px;
+            margin: 0;
+        }
     </style>
 </head>
 
@@ -84,7 +98,7 @@
             $params[] = $row;
         }
 
-        $totalRow = 24;
+        $totalRow = 12;
 
         for ($i = 0; $i < $totalRow; $i++) {
 
@@ -94,8 +108,10 @@
         ?>
             <tr>
                 <td>
-                    <input type="checkbox" style="width:10px;height:10px;">
-                    <?= $param ?>
+                    <div class="param-box">
+                        <input type="checkbox">
+                        <span><?= $param ?></span>
+                    </div>
                 </td>
                 <td class="center"><?= $metode ?></td>
                 <td class="center"><?= $pustaka ?></td>
@@ -148,8 +164,6 @@
             </td>
         </tr>
     </table>
-
-    <p>Tanggal Cetak: <?= date('d-m-Y H:i') ?></p>
 
 </body>
 
