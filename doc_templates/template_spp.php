@@ -48,7 +48,7 @@
             margin-top: 15px;
         }
 
-        .param-box {
+        .param-cell {
             display: flex;
             align-items: flex-start;
             gap: 6px;
@@ -58,10 +58,8 @@
             line-height: 1.2;
         }
 
-        .param-box input {
-            width: 11px;
-            height: 11px;
-            margin: 0;
+        .param-cell input {
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -118,7 +116,7 @@
             $params[] = $row;
         }
 
-        $totalRow = 12;
+        $totalRow = 20;
 
         for ($i = 0; $i < $totalRow; $i++) {
 
@@ -128,7 +126,7 @@
         ?>
             <tr>
                 <td>
-                    <div class="param-box">
+                    <div class="param-cell">
                         <input type="checkbox">
                         <span><?= $param ?></span>
                     </div>
