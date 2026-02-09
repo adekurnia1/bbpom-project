@@ -30,14 +30,34 @@
             border: 0;
         }
 
+        .header-1 {
+            font-size: 14px;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .header-2 {
+            font-size: 12px;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
         .param-box {
             display: flex;
             align-items: flex-start;
             gap: 6px;
         }
+
         .param-box span {
             line-height: 1.2;
         }
+
         .param-box input {
             width: 11px;
             height: 11px;
@@ -48,10 +68,10 @@
 
 <body>
 
-    <h3 class="center">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</h3>
-    <h4 class="center">JL. PASTEUR NO. 25 BANDUNG 40171</h4>
+    <div class="center header-1">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</div>
+    <div class="center header-2">JL. PASTEUR NO. 25 BANDUNG 40171</div>
 
-    <h3 class="center" style="margin-top:20px;">SURAT PERINTAH PENGUJIAN</h3>
+    <div class="center header-title">SURAT PERINTAH PENGUJIAN</div>
 
     <p>Kepada Petugas Penguji, agar dilakukan pengujian terhadap contoh berikut:</p>
 
