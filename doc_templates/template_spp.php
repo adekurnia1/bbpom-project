@@ -160,7 +160,13 @@
         </tr>
         <tr>
             <td>Timeline :</td>
-            <td><?= $timeline_tgl ?></td>
+            <td>
+                <?= hitungTanggalSelesai(
+                    $data['tgl_spk'],
+                    $data['timeline'],
+                    $hariLibur
+                ); ?>
+            </td>
         </tr>
         <tr>
             <td>SPU :</td>
