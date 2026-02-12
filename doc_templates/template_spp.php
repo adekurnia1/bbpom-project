@@ -160,7 +160,7 @@
         </tr>
         <tr>
             <td>Timeline :</td>
-            <td><?= $data['timeline'] ?></td>
+            <td><?= $timeline_tgl ?></td>
         </tr>
         <tr>
             <td>SPU :</td>
