@@ -45,7 +45,8 @@ $q = mysqli_query($koneksi, "
         u2.nama AS nama_penguji,
         sp.no_spu,
         sp.tgl_spk,
-        sp.timeline
+        sp.timeline,
+        ps.status_pengiriman
     FROM tbl_sampel s
     JOIN tbl_pengiriman_sampel ps ON ps.no_spl_sipt = s.no_spl_sipt
     JOIN tbl_users u1 ON u1.id_user = ps.id_penyelia
