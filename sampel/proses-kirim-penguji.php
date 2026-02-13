@@ -50,7 +50,9 @@ try {
         s.no_spu,
 
         u1.nama AS nama_penyelia,
-        p.nama_petugas AS nama_penguji,
+        u2.nama AS nama_penguji,
+
+        pt.id_penguji AS kode_penguji, 
 
         sp.tgl_spk,
         sp.timeline,
@@ -61,21 +63,19 @@ try {
     FROM tbl_sampel s
     JOIN tbl_pengiriman_sampel ps 
         ON ps.no_spl_sipt = s.no_spl_sipt
-
     JOIN tbl_users u1 
         ON u1.id_user = ps.id_penyelia
-
-    JOIN tbl_petugas p 
-        ON p.id_petugas = ps.id_penguji  
+    JOIN tbl_users u2 
+        ON u2.id_user = ps.id_penguji
+    LEFT JOIN tbl_petugas pt
+        ON pt.penguji = u2.nama
     JOIN tbl_spu sp 
         ON sp.no_spu = s.no_spu
-
     WHERE s.no_spl_sipt = '$no_spl_sipt'
     LIMIT 1
 ");
 
     $data = mysqli_fetch_assoc($q);
-
 
     if (!$data) {
         throw new Exception("Data sampel tidak ditemukan");

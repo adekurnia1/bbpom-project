@@ -8,13 +8,13 @@ $bulanMasuk = (int) date('m', strtotime($data['tgl_spk']));
 // asal sampel
 $asal = strtoupper($data['asal_sampling']);
 switch ($asal) {
-    case 'BALAI BANDUNG':
+    case 'Balai Bandung':
         $kodeAsal = 'BD';
         break;
-    case 'BALAI TASIK':
+    case 'Balai Tasik':
         $kodeAsal = 'TS';
         break;
-    case 'BALAI BOGOR':
+    case 'Balai Bogor':
         $kodeAsal = 'BG';
         break;
     default:
