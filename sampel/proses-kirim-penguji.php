@@ -19,7 +19,7 @@ $no_spl_sipt = mysqli_real_escape_string($koneksi, $_POST['no_spl_sipt']);
 $id_penguji  = mysqli_real_escape_string($koneksi, $_POST['id_penguji']);
 $id_penyelia = $_SESSION['ssId'];
 
-/* ================= CEK DUPLIKAT ================= */
+// cek duplikat
 $cek = mysqli_query($koneksi, "
     SELECT 1 FROM tbl_pengiriman_sampel 
     WHERE no_spl_sipt = '$no_spl_sipt'
@@ -29,13 +29,9 @@ if (mysqli_num_rows($cek) > 0) {
     header("location:view-sampel.php?no_spl_sipt=$no_spl_sipt&msg=already");
     exit;
 }
-
-/* ================= TRANSACTION ================= */
 mysqli_begin_transaction($koneksi);
 
 try {
-
-    /* 1. SIMPAN PENGIRIMAN */
     mysqli_query($koneksi, "
         INSERT INTO tbl_pengiriman_sampel
         (no_spl_sipt, id_penyelia, id_penguji, status_pengiriman, status_uji, tgl_kirim)
@@ -43,26 +39,40 @@ try {
         ('$no_spl_sipt', '$id_penyelia', '$id_penguji', 'dikirim', 'menunggu', NOW())
     ");
 
-    /* 2. AMBIL DATA UNTUK PDF */
     $q = mysqli_query($koneksi, "
-        SELECT 
-            s.*, 
-            u1.nama AS nama_penyelia,
-            u2.nama AS nama_penguji,
-            sp.no_spu,
-            sp.tgl_spk,
-            sp.timeline,
-            ps.status_pengiriman
-        FROM tbl_sampel s
-        JOIN tbl_pengiriman_sampel ps ON ps.no_spl_sipt = s.no_spl_sipt
-        JOIN tbl_users u1 ON u1.id_user = ps.id_penyelia
-        JOIN tbl_users u2 ON u2.id_user = ps.id_penguji
-        JOIN tbl_spu sp ON sp.no_spu = s.no_spu
-        WHERE s.no_spl_sipt = '$no_spl_sipt'
-        LIMIT 1
-    ");
+    SELECT 
+        s.no_spl_sipt,
+        s.brand,
+        s.nama_sampel,
+        s.komposisi,
+        s.no_bet,
+        s.kategori,
+        s.no_spu,
+
+        u1.nama AS nama_penyelia,
+        u2.nama AS nama_penguji,
+
+        sp.tgl_spk,
+        sp.timeline,
+        sp.asal_sampel,
+
+        ps.status_pengiriman
+
+    FROM tbl_sampel s
+    JOIN tbl_pengiriman_sampel ps 
+        ON ps.no_spl_sipt = s.no_spl_sipt
+    JOIN tbl_users u1 
+        ON u1.id_user = ps.id_penyelia
+    JOIN tbl_users u2 
+        ON u2.id_user = ps.id_penguji
+    JOIN tbl_spu sp 
+        ON sp.no_spu = s.no_spu
+    WHERE s.no_spl_sipt = '$no_spl_sipt'
+    LIMIT 1
+");
 
     $data = mysqli_fetch_assoc($q);
+
 
     if (!$data) {
         throw new Exception("Data sampel tidak ditemukan");
@@ -94,7 +104,6 @@ try {
 
     header("location:view-sampel.php?no_spl_sipt=$no_spl_sipt&msg=dikirim");
     exit;
-
 } catch (Exception $e) {
     mysqli_rollback($koneksi);
     die("Gagal kirim sampel: " . $e->getMessage());
