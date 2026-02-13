@@ -36,17 +36,18 @@ mysqli_query($koneksi, "
     WHERE id_pengiriman='$id_pengiriman'
 ");
 
-/* AMBIL DATA LENGKAP UNTUK PDF */
 $q = mysqli_query($koneksi, "
     SELECT 
         s.*, 
         ps.file_spp,
+        ps.id_penyelia,
+        ps.id_penguji,
+        ps.status_pengiriman,
         u1.nama AS nama_penyelia,
         u2.nama AS nama_penguji,
         sp.no_spu,
         sp.tgl_spk,
-        sp.timeline,
-        ps.status_pengiriman
+        sp.timeline
     FROM tbl_sampel s
     JOIN tbl_pengiriman_sampel ps ON ps.no_spl_sipt = s.no_spl_sipt
     JOIN tbl_users u1 ON u1.id_user = ps.id_penyelia
@@ -54,6 +55,7 @@ $q = mysqli_query($koneksi, "
     JOIN tbl_spu sp ON sp.no_spu = s.no_spu
     WHERE ps.id_pengiriman='$id_pengiriman'
 ");
+
 
 $data = mysqli_fetch_assoc($q);
 
