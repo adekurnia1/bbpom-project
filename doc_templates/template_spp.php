@@ -150,6 +150,8 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
         <?= $data['no_dokumen'] ?? '7.4/PTJM-01/BBPOM BDG/18 F(03)' ?>
     </div>
 
+    <br>
+    
     <div class="center header-1">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</div>
     <div class="center header-2">JL. PASTEUR NO. 25 BANDUNG 40171</div>
 
