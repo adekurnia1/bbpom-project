@@ -40,38 +40,42 @@ try {
     ");
 
     $q = mysqli_query($koneksi, "
-                        SELECT 
-                            s.no_spl_sipt,
-                            s.brand,
-                            s.nama_sampel,
-                            s.komposisi,
-                            s.no_bet,
-                            s.kategori,
-                            s.no_spu,
+    SELECT 
+        s.no_spl_sipt,
+        s.brand,
+        s.nama_sampel,
+        s.komposisi,
+        s.no_bet,
+        s.kategori,
+        s.no_spu,
 
-                            p.penyelia     AS nama_penyelia,
-                            p.id_penyelia  AS id_penyelia,
-                            p.penguji      AS nama_penguji,
-                            p.id_penguji   AS id_penguji,
+        u1.nama AS nama_penyelia,
+        p.nama_petugas AS nama_penguji,
 
-                            sp.tgl_spk,
-                            sp.timeline,
-                            sp.asal_sampling,
+        sp.tgl_spk,
+        sp.timeline,
+        sp.asal_sampling,
 
-                            ps.status_pengiriman
+        ps.status_pengiriman
 
-                        FROM tbl_sampel s
-                        JOIN tbl_pengiriman_sampel ps 
-                            ON ps.no_spl_sipt = s.no_spl_sipt
-                        JOIN tbl_petugas p
-                            ON p.id_penguji = ps.id_penguji
-                        JOIN tbl_spu sp 
-                            ON sp.no_spu = s.no_spu
-                        WHERE s.no_spl_sipt = '$no_spl_sipt'
-                        LIMIT 1
+    FROM tbl_sampel s
+    JOIN tbl_pengiriman_sampel ps 
+        ON ps.no_spl_sipt = s.no_spl_sipt
+
+    JOIN tbl_users u1 
+        ON u1.id_user = ps.id_penyelia
+
+    JOIN tbl_petugas p 
+        ON p.id_petugas = ps.id_penguji  
+    JOIN tbl_spu sp 
+        ON sp.no_spu = s.no_spu
+
+    WHERE s.no_spl_sipt = '$no_spl_sipt'
+    LIMIT 1
 ");
 
     $data = mysqli_fetch_assoc($q);
+
 
     if (!$data) {
         throw new Exception("Data sampel tidak ditemukan");
