@@ -1,4 +1,35 @@
 <?php
+// no_spl_sipt
+$noSPL = $data['no_spl_sipt'];
+
+// bulan masuk
+$bulanMasuk = (int) date('m', strtotime($data['tgl_spk']));
+
+// asal sampel
+$asal = strtoupper($data['asal_sampel']);
+switch ($asal) {
+    case 'BALAI BANDUNG':
+        $kodeAsal = 'BD';
+        break;
+    case 'BALAI TASIK':
+        $kodeAsal = 'TS';
+        break;
+    case 'BALAI BOGOR':
+        $kodeAsal = 'BG';
+        break;
+    default:
+        $kodeAsal = 'XX';
+}
+
+// 4 digit terakhir no_spl_sipt
+$last4 = substr($noSPL, -4);
+$last4 = (int) $last4;
+
+// id penguji
+$idPenguji = $data['id_penguji'];
+
+$kodeContohFormat = "$noSPL ($bulanMasuk-$kodeAsal-$last4-$idPenguji)";
+
 $qLibur = mysqli_query($koneksi, "SELECT tanggal FROM tbl_hari_libur");
 
 $hariLibur = [];
@@ -135,10 +166,7 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
         <tr>
             <td>Kode Contoh</td>
             <td>
-                <?= $data['no_spl_sipt'] (date('m', strtotime($data['tgl_spk'])))?> /
-                <?= date('m-Y', strtotime($data['tgl_spk'])) ?> /
-                <?= $data['no_spu'] ?> /
-                <?= $data['nama_penguji'] ?>
+                <?= $kodeContohFormat ?>
             </td>
         </tr>
         <tr>
