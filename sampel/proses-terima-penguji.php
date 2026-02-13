@@ -50,7 +50,9 @@ $q = mysqli_query($koneksi, "
 
         sp.no_spu,
         sp.tgl_spk,
-        sp.timeline
+        sp.timeline,
+        sp.asal_sampling
+        
     FROM tbl_sampel s
     JOIN tbl_pengiriman_sampel ps 
         ON ps.no_spl_sipt = s.no_spl_sipt
