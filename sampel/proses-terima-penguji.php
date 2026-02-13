@@ -43,19 +43,23 @@ $q = mysqli_query($koneksi, "
         ps.id_penyelia,
         ps.id_penguji,
         ps.status_pengiriman,
-        u1.nama AS nama_penyelia,
-        u2.nama AS nama_penguji,
+
+        p.penyelia   AS nama_penyelia,
+        p.penguji    AS nama_penguji,
+        p.id_penguji,
+
         sp.no_spu,
         sp.tgl_spk,
         sp.timeline
     FROM tbl_sampel s
-    JOIN tbl_pengiriman_sampel ps ON ps.no_spl_sipt = s.no_spl_sipt
-    JOIN tbl_users u1 ON u1.id_user = ps.id_penyelia
-    JOIN tbl_users u2 ON u2.id_user = ps.id_penguji
-    JOIN tbl_spu sp ON sp.no_spu = s.no_spu
+    JOIN tbl_pengiriman_sampel ps 
+        ON ps.no_spl_sipt = s.no_spl_sipt
+    JOIN tbl_petugas p 
+        ON p.id_petugas = ps.id_penguji
+    JOIN tbl_spu sp 
+        ON sp.no_spu = s.no_spu
     WHERE ps.id_pengiriman='$id_pengiriman'
 ");
-
 
 $data = mysqli_fetch_assoc($q);
 

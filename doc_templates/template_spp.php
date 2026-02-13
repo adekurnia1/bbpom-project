@@ -6,7 +6,7 @@ $noSPL = $data['no_spl_sipt'];
 $bulanMasuk = (int) date('m', strtotime($data['tgl_spk']));
 
 // asal sampel
-$asal = strtoupper($data['asal_sampel']);
+$asal = strtoupper($data['asal_sampling']);
 switch ($asal) {
     case 'BALAI BANDUNG':
         $kodeAsal = 'BD';
