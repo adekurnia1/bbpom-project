@@ -1,3 +1,34 @@
+<?php
+$qLibur = mysqli_query($koneksi, "SELECT tanggal FROM tbl_hari_libur");
+
+$hariLibur = [];
+while ($row = mysqli_fetch_assoc($qLibur)) {
+    $hariLibur[] = $row['tanggal']; // format Y-m-d
+}
+
+function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
+{
+    $tanggal = new DateTime($tglMulai);
+    $hariKerja = 0;
+
+    while ($hariKerja < $jumlahHari) {
+
+        $hari = $tanggal->format('N'); // 6=Sabtu, 7=Minggu
+        $tglString = $tanggal->format('Y-m-d');
+
+        if ($hari < 6 && !in_array($tglString, $hariLibur)) {
+            $hariKerja++;
+        }
+
+        if ($hariKerja < $jumlahHari) {
+            $tanggal->modify('+1 day');
+        }
+    }
+
+    return $tanggal->format('d-m-Y');
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
