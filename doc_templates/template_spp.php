@@ -3,8 +3,9 @@ $qLibur = mysqli_query($koneksi, "SELECT tanggal FROM tbl_hari_libur");
 
 $hariLibur = [];
 while ($row = mysqli_fetch_assoc($qLibur)) {
-    $hariLibur[] = $row['tanggal']; // format Y-m-d
+    $hariLibur[] = $row['tanggal'];
 }
+
 
 function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
 {
@@ -13,7 +14,7 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
 
     while ($hariKerja < $jumlahHari) {
 
-        $hari = $tanggal->format('N'); // 6=Sabtu, 7=Minggu
+        $hari = $tanggal->format('N');
         $tglString = $tanggal->format('Y-m-d');
 
         if ($hari < 6 && !in_array($tglString, $hariLibur)) {
@@ -28,6 +29,7 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
     return $tanggal->format('d-m-Y');
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -101,10 +103,21 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
         .param-cell input {
             margin-top: 2px;
         }
+
+        .nomor-dokumen {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 11px;
+        }
     </style>
 </head>
 
 <body>
+
+    <div class="nomor-dokumen">
+        <?= $data['no_dokumen'] ?? '7.4/PTJM-01/BBPOM BDG/18 F(03)' ?>
+    </div>
 
     <div class="center header-1">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</div>
     <div class="center header-2">JL. PASTEUR NO. 25 BANDUNG 40171</div>
@@ -116,13 +129,13 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
     <table>
         <tr>
             <td width="20%">Nama Contoh</td>
-            <td><?= $data['brand'] ?> <?= $data['nama_sampel'] ?></td>
-            <td rowspan="3"><?= $data['komposisi'] ?></td>
+            <td width="40%"><?= $data['brand'] ?> <?= $data['nama_sampel'] ?></td>
+            <td rowspan="3" width="40%"><?= $data['komposisi'] ?></td>
         </tr>
         <tr>
             <td>Kode Contoh</td>
             <td>
-                <?= $data['no_spl_sipt'] ?> /
+                <?= $data['no_spl_sipt'] (date('m', strtotime($data['tgl_spk'])))?> /
                 <?= date('m-Y', strtotime($data['tgl_spk'])) ?> /
                 <?= $data['no_spu'] ?> /
                 <?= $data['nama_penguji'] ?>
@@ -181,8 +194,7 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
 
     <table class="no-border" style="width:100%;">
         <tr>
-            <td width="15%"><strong>Catatan</strong></td>
-            <td width="2%">:</td>
+            <td width="15%"><strong>Catatan :</strong></td>
             <td width="83%"></td>
         </tr>
         <tr>
