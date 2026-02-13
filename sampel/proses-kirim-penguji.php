@@ -40,35 +40,35 @@ try {
     ");
 
     $q = mysqli_query($koneksi, "
-    SELECT 
-        s.no_spl_sipt,
-        s.brand,
-        s.nama_sampel,
-        s.komposisi,
-        s.no_bet,
-        s.kategori,
-        s.no_spu,
+                                SELECT 
+                                    s.no_spl_sipt,
+                                    s.brand,
+                                    s.nama_sampel,
+                                    s.komposisi,
+                                    s.no_bet,
+                                    s.kategori,
+                                    s.no_spu,
 
-        u1.nama AS nama_penyelia,
-        u2.nama AS nama_penguji,
+                                    u1.nama AS nama_penyelia,
+                                    u2.nama AS nama_penguji,
 
-        sp.tgl_spk,
-        sp.timeline,
-        sp.asal_sampel,
+                                    sp.tgl_spk,
+                                    sp.timeline,
+                                    sp.asal_sampling,
 
-        ps.status_pengiriman
+                                    ps.status_pengiriman
 
-    FROM tbl_sampel s
-    JOIN tbl_pengiriman_sampel ps 
-        ON ps.no_spl_sipt = s.no_spl_sipt
-    JOIN tbl_users u1 
-        ON u1.id_user = ps.id_penyelia
-    JOIN tbl_users u2 
-        ON u2.id_user = ps.id_penguji
-    JOIN tbl_spu sp 
-        ON sp.no_spu = s.no_spu
-    WHERE s.no_spl_sipt = '$no_spl_sipt'
-    LIMIT 1
+                                FROM tbl_sampel s
+                                JOIN tbl_pengiriman_sampel ps 
+                                    ON ps.no_spl_sipt = s.no_spl_sipt
+                                JOIN tbl_users u1 
+                                    ON u1.id_user = ps.id_penyelia
+                                JOIN tbl_users u2 
+                                    ON u2.id_user = ps.id_penguji
+                                JOIN tbl_spu sp 
+                                    ON sp.no_spu = s.no_spu
+                                WHERE s.no_spl_sipt = '$no_spl_sipt'
+                                LIMIT 1
 ");
 
     $data = mysqli_fetch_assoc($q);
