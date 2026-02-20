@@ -71,6 +71,7 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
         body {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 11px;
+            margin-top: 40px;
         }
 
         .center {
@@ -139,7 +140,7 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
             position: absolute;
             top: 10px;
             right: 20px;
-            font-size: 11px;
+            font-size: 10px;
         }
     </style>
 </head>
@@ -149,10 +150,9 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
     <div class="nomor-dokumen">
         <?= $data['no_dokumen'] ?? '7.4/PTJM-01/BBPOM BDG/18 F(03)' ?>
     </div>
-
-    <br>
     
     <div class="center header-1">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</div>
+
     <div class="center header-2">JL. PASTEUR NO. 25 BANDUNG 40171</div>
 
     <div class="center header-title">SURAT PERINTAH PENGUJIAN</div>
