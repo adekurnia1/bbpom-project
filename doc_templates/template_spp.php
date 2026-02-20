@@ -65,9 +65,21 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
     return $tanggal->format('d-m-Y');
 }
 
-$ttdPenyeliaPath = realpath(__DIR__ . "../tanda_tangan/ttd_" . $data['username_penyelia'] . ".png");
-$ttdPengujiPath  = realpath(__DIR__ . "../tanda_tangan/ttd_" . $data['username_penguji'] . ".png");
+$ttdPenyeliaPath = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_penyelia'] . ".png");
+$ttdPenyeliaBase64 = '';
 
+if ($ttdPenyeliaPath && file_exists($ttdPenyeliaPath)) {
+    $imageDataPenyelia = file_get_contents($ttdPenyeliaPath);
+    $ttdPenyeliaBase64 = 'data:image/png;base64,' . base64_encode($imageDataPenyelia);
+}
+
+$ttdPengujiPath = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_penguji'] . ".png");
+$ttdPengujiBase64 = '';
+
+if ($ttdPengujiPath && file_exists($ttdPengujiPath)) {
+    $imageDataPenguji = file_get_contents($ttdPengujiPath);
+    $ttdPengujiBase64 = 'data:image/png;base64,' . base64_encode($imageDataPenguji);
+}
 
 ?>
 
@@ -278,7 +290,9 @@ $ttdPengujiPath  = realpath(__DIR__ . "../tanda_tangan/ttd_" . $data['username_p
             <td width="50%">
                 Penyelia<br>
                 <?php if (file_exists($ttdPenyeliaPath)) { ?>
-                    <img src="<?= $ttdPenyeliaPath ?>" class="ttd-img">
+                    <?php if ($ttdPenyeliaBase64) { ?>
+                        <img src="<?= $ttdPenyeliaBase64 ?>" class="ttd-img">
+                    <?php } ?>
                 <?php } else { ?>
                     <br><br><br>
                 <?php } ?>
@@ -289,9 +303,10 @@ $ttdPengujiPath  = realpath(__DIR__ . "../tanda_tangan/ttd_" . $data['username_p
 
             <td width="50%">
                 Penguji<br>
-                echo $ttdPenyeliaPath;
                 <?php if ($data['status_pengiriman'] == 'diterima' && file_exists($ttdPengujiPath)) { ?>
-                    <img src="<?= $ttdPengujiPath ?>" class="ttd-img">
+                    <?php if ($ttdPengujiBase64) { ?>
+                        <img src="<?= $ttdPengujiBase64 ?>" class="ttd-img">
+                    <?php } ?>
                 <?php } else { ?>
                     <br><br><br>
                 <?php } ?>
