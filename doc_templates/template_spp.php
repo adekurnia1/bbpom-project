@@ -238,16 +238,18 @@ $ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_
 
     <table class="no-border" style="width:100%;">
         <tr>
-            <td width="15%"><strong>Catatan :</strong></td>
-            <td width="83%"></td>
+            <td width="20%"><strong>Catatan :</strong></td>
+            <td width="2%">:</td>
+            <td width="78%"></td>
         </tr>
         <tr>
-            <td>Tgl SPP :</td>
-
+            <td>Tgl SPP</td>
+            <td>:</td>
             <td><?= date('d-m-Y', strtotime($data['tgl_spk'])) ?> </td>
         </tr>
         <tr>
-            <td>Timeline :</td>
+            <td>Timeline</td>
+            <td>:</td>
             <td>
                 <?= hitungTanggalSelesai(
                     $data['tgl_spk'],
@@ -257,11 +259,13 @@ $ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_
             </td>
         </tr>
         <tr>
-            <td>SPU :</td>
+            <td>SPU</td>
+            <td>:</td>
             <td><?= $data['no_spu'] ?></td>
         </tr>
         <tr>
-            <td>Kategori :</td>
+            <td>Kategori</td>
+            <td>:</td>
             <td><?= $data['kategori'] ?></td>
         </tr>
     </table>
