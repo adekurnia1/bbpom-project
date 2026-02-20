@@ -1,5 +1,8 @@
 <?php
 // no_spl_sipt
+
+use function Safe\strtotime;
+
 $noSPL = $data['no_spl_sipt'];
 
 // bulan masuk
@@ -229,7 +232,8 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
         </tr>
         <tr>
             <td>Tgl SPP :</td>
-            <td><?= $data['tgl_spk'] ?></td>
+            
+            <td><?=  date('d-m-Y', strtotime($data['tgl_spk'])) ?> </td>
         </tr>
         <tr>
             <td>Timeline :</td>
