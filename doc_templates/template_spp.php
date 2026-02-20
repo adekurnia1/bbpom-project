@@ -1,6 +1,8 @@
 <?php
 // no_spl_sipt
 
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
+
 use function Safe\strtotime;
 
 $noSPL = $data['no_spl_sipt'];
@@ -62,6 +64,10 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
 
     return $tanggal->format('d-m-Y');
 }
+
+$ttdPenyeliaPath = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['id_penyelia'] . ".png");
+$ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['id_penguji'] . ".png");
+
 ?>
 
 
@@ -145,6 +151,11 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
             right: 20px;
             font-size: 10px;
         }
+
+        .ttd-img {
+            height: 60px;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 
@@ -153,7 +164,7 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
     <div class="nomor-dokumen">
         <?= $data['no_dokumen'] ?? '7.4/PTJM-01/BBPOM BDG/18 F(03)' ?>
     </div>
-    
+
     <div class="center header-1">BALAI BESAR PENGAWAS OBAT DAN MAKANAN DI BANDUNG</div>
 
     <div class="center header-2">JL. PASTEUR NO. 25 BANDUNG 40171</div>
@@ -232,8 +243,8 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
         </tr>
         <tr>
             <td>Tgl SPP :</td>
-            
-            <td><?=  date('d-m-Y', strtotime($data['tgl_spk'])) ?> </td>
+
+            <td><?= date('d-m-Y', strtotime($data['tgl_spk'])) ?> </td>
         </tr>
         <tr>
             <td>Timeline :</td>
@@ -260,17 +271,27 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
     <table class="no-border" style="text-align:center;">
         <tr>
             <td width="50%">
-                Penyelia<br><br><br>
+                Penyelia<br>
+                <?php if ($ttdPenyeliaPath && file_exists($ttdPenyeliaPath)) { ?>
+                    <img src="file://<?= $ttdPenyeliaPath ?>" class="ttd-img">
+                <?php } else { ?>
+                    <br><br><br>
+                <?php } ?>
+
+                <br>
                 <u><?= $data['nama_penyelia'] ?></u>
             </td>
 
             <td width="50%">
-                Penguji<br><br><br>
-                <?php if ($data['status_pengiriman'] == 'diterima') { ?>
-                    <u><?= $data['nama_penguji'] ?></u>
+                Penguji<br>
+                <?php if ($data['status_pengiriman'] == 'diterima' && $ttdPengujiPath && file_exists($ttdPengujiPath)) { ?>
+                    <img src="file://<?= $ttdPengujiPath ?>" class="ttd-img">
                 <?php } else { ?>
-                    <i>(Belum ditandatangani)</i>
+                    <br><br><br>
                 <?php } ?>
+
+                <br>
+                <u><?= $data['nama_penguji'] ?></u>
             </td>
         </tr>
     </table>

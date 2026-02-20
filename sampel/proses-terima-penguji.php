@@ -4,6 +4,7 @@ require_once "../config.php";
 require_once "../vendor/autoload.php";
 
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 if (!isset($_SESSION["ssLogin"])) {
     header("location: ../auth/login.php");
@@ -70,7 +71,10 @@ ob_start();
 include "../doc_templates/template_spp.php";
 $html = ob_get_clean();
 
-$dompdf = new Dompdf();
+$options = new Options();
+$options -> set('isRemoteEnabled', true);
+
+$dompdf = new Dompdf($options);
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
