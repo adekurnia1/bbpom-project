@@ -65,8 +65,9 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
     return $tanggal->format('d-m-Y');
 }
 
-$ttdPenyeliaPath = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_penyelia'] . ".png");
-$ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_penguji'] . ".png");
+$ttdPenyeliaPath = realpath(__DIR__ . "../tanda_tangan/ttd_" . $data['username_penyelia'] . ".png");
+$ttdPengujiPath  = realpath(__DIR__ . "../tanda_tangan/ttd_" . $data['username_penguji'] . ".png");
+
 
 ?>
 
@@ -239,7 +240,7 @@ $ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_
     <table class="no-border" style="width:100%;">
         <tr>
             <td width="20%"><strong>Catatan :</strong></td>
-            <td width="2%">:</td>
+            <td width="2%"></td>
             <td width="78%"></td>
         </tr>
         <tr>
@@ -288,6 +289,7 @@ $ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_
 
             <td width="50%">
                 Penguji<br>
+                echo $ttdPenyeliaPath;
                 <?php if ($data['status_pengiriman'] == 'diterima' && file_exists($ttdPengujiPath)) { ?>
                     <img src="<?= $ttdPengujiPath ?>" class="ttd-img">
                 <?php } else { ?>
