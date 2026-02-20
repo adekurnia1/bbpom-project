@@ -51,7 +51,10 @@ try {
         s.no_spu,
 
         u1.nama AS nama_penyelia,
+        u1.username AS username_penyelia,
+
         u2.nama AS nama_penguji,
+        u2.username AS username_penguji,
 
         pt.id_penguji AS kode_penguji, 
 

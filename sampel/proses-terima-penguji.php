@@ -45,9 +45,13 @@ $q = mysqli_query($koneksi, "
         ps.id_penguji,
         ps.status_pengiriman,
 
-        p.penyelia   AS nama_penyelia,
-        p.penguji    AS nama_penguji,
-        p.id_penguji,
+        pt. id_penguji AS kode_penguji,
+        
+        u1.nama AS nama_penyelia,
+        u1.username AS username_penyelia,
+
+        u2.nama AS nama_penguji,
+        u2.username AS username_penguji,
 
         sp.no_spu,
         sp.tgl_spk,
@@ -57,8 +61,12 @@ $q = mysqli_query($koneksi, "
     FROM tbl_sampel s
     JOIN tbl_pengiriman_sampel ps 
         ON ps.no_spl_sipt = s.no_spl_sipt
-    JOIN tbl_petugas p 
-        ON p.id_petugas = ps.id_penguji
+    JOIN tbl_users u1
+        ON u1.id_user = ps.id_penyelia
+    JOIN tbl_users u2
+        ON u2.id_user = ps.id_penguji
+    LEFT JOIN tbl_petugas pt
+        ON pt.penguji = u2.nama
     JOIN tbl_spu sp 
         ON sp.no_spu = s.no_spu
     WHERE ps.id_pengiriman='$id_pengiriman'

@@ -31,7 +31,7 @@ $last4 = substr($noSPL, -4);
 $last4 = (int) $last4;
 
 // id penguji
-$idPenguji = $data['id_penguji'];
+$idPenguji = $data['kode_penguji'];
 
 $kodeContohFormat = "$noSPL ($bulanMasuk-$kodeAsal-$last4-$idPenguji)";
 
@@ -65,8 +65,8 @@ function hitungTanggalSelesai($tglMulai, $jumlahHari, $hariLibur)
     return $tanggal->format('d-m-Y');
 }
 
-$ttdPenyeliaPath = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['id_penyelia'] . ".png");
-$ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['id_penguji'] . ".png");
+$ttdPenyeliaPath = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_penyelia'] . ".png");
+$ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['username_penguji'] . ".png");
 
 ?>
 
@@ -272,8 +272,8 @@ $ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['id_penguj
         <tr>
             <td width="50%">
                 Penyelia<br>
-                <?php if ($ttdPenyeliaPath && file_exists($ttdPenyeliaPath)) { ?>
-                    <img src="file://<?= $ttdPenyeliaPath ?>" class="ttd-img">
+                <?php if (file_exists($ttdPenyeliaPath)) { ?>
+                    <img src="<?= $ttdPenyeliaPath ?>" class="ttd-img">
                 <?php } else { ?>
                     <br><br><br>
                 <?php } ?>
@@ -284,8 +284,8 @@ $ttdPengujiPath  = realpath(__DIR__ . "/../tanda_tangan/ttd_" . $data['id_penguj
 
             <td width="50%">
                 Penguji<br>
-                <?php if ($data['status_pengiriman'] == 'diterima' && $ttdPengujiPath && file_exists($ttdPengujiPath)) { ?>
-                    <img src="file://<?= $ttdPengujiPath ?>" class="ttd-img">
+                <?php if ($data['status_pengiriman'] == 'diterima' && file_exists($ttdPengujiPath)) { ?>
+                    <img src="<?= $ttdPengujiPath ?>" class="ttd-img">
                 <?php } else { ?>
                     <br><br><br>
                 <?php } ?>
